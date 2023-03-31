@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
 
-const StudentForm = ({handleSubmit, student, setStudent}) => {
 
-    
+const StudentEditForm = ({editedStudent, handleEditSubmit}) => {
+    const [student, setStudent] = useState({
+        id: editedStudent.id,
+        first_name: editedStudent.first_name,
+        last_name: editedStudent.last_name,
+    });
+
+
     const handleChange = (e) => {
         setStudent({ ...student, [e.target.name]: e.target.value });
     };
-    
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleEditSubmit(student);
+        setStudent({
+            first_name: "",
+            last_name: "",
+        })
+    };
 
     return (
         <div>
@@ -20,6 +35,7 @@ const StudentForm = ({handleSubmit, student, setStudent}) => {
             </form>
         </div>
     );
-};
+}
 
-export default StudentForm;
+export default StudentEditForm;
+
