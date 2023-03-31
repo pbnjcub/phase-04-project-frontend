@@ -6,7 +6,7 @@ const StudentLink = ({student}) => {
     return (
         <h3>
             <Link to={`/students/${student.id}`}>
-                {student.first_name}
+                {student.first_name} {student.last_name}
             </Link>
         </h3>
     );

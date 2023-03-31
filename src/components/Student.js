@@ -6,10 +6,9 @@ const Student = () => {
   const { id } = useParams();
   
   useEffect(() => {
-    fetch(`http://localhost:9393/students/${id}`)
+    fetch(`http://127.0.0.1:9393/students/${id}`)
       .then((resp) => resp.json())
       .then((data) => setStudent(data));
-      console.log(student)
   }, []);
 
 
