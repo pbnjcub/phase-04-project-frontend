@@ -1,6 +1,6 @@
 import React from 'react';
 
-const StudentNewForm = ({handleNewSubmit, newStudent, setNewStudent}) => {
+const StudentNewForm = ({handleNewStudent, newStudent, setNewStudent}) => {
 
     
     const handleChange = (e) => {
@@ -11,7 +11,7 @@ const StudentNewForm = ({handleNewSubmit, newStudent, setNewStudent}) => {
     return (
         <div>
             <h1>New Student Form</h1>
-            <form onSubmit={handleNewSubmit}>
+            <form onSubmit={handleNewStudent}>
                 <label>First Name</label>
                 <input type="text" name="first_name" value={newStudent.first_name} onChange={handleChange} />
                 <label>Last Name</label>
