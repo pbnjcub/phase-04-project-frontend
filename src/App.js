@@ -38,7 +38,6 @@ function App() {
       setStudents(updatedStudents);
     }
 
-    console.log(students)
   
   return (
     <div className="App">
