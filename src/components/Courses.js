@@ -1,34 +1,32 @@
 import React, {useState } from 'react';
-import AssignmentLink from './AssignmentLink';
-import AssignmentNewForm from './AssignmentNewForm';
+import CourseLink from './CourseLink';
+import CourseNewForm from './CourseNewForm';
 
-const Assignments = ({assignments, addAssignment, removeAssignment}) => {
-  const [newAssignment, setNewAssignment] = useState({
+const Courses = ({courses, addCourse, removeCourse}) => {
+  const [newCourse, setNewCourse] = useState({
     name: "",
-    grade: "",
-    student_id: "",
-    course_id: "",
+    teacher_id: ""
   });
   const [errorMessages, setErrorMessages] = useState([]);
 
- const deleteAssignment = (deletedAssignment) => {
-      fetch(`http://127.0.0.1:9393/assignments/${deletedAssignment.id}`, {
+ const deleteCourse = (deletedCourse) => {
+      fetch(`http://127.0.0.1:9393//courses/${deletedCourse.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
       })
-        removeAssignment(deletedAssignment)
+        removeCourse(deletedCourse)
     };
 
 
 // list of courses
-  const assignmentList = assignments.map((assignment) => <AssignmentLink key={assignment.id} assignment={assignment} deleteAssignment={deleteAssignment} />);
+  const courseList = courses.map((course) => <CourseLink key={course.id} course={course} deleteCourse={deleteCourse} />);
 
-  const handleNewAssignment = (e) => {
+  const handleNewCourse = (e) => {
     e.preventDefault();
-    fetch("http://127.0.0.1:9393/assignments", {
+    fetch("http://127.0.0.1:9393/courses", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -41,7 +39,7 @@ const Assignments = ({assignments, addAssignment, removeAssignment}) => {
             if (data.errors) {
                 setErrorMessages(data.errors);
             } else {
-                addAssignment(data);
+                addCourse(data);
                 setErrorMessages([])
             }
         })
@@ -54,14 +52,14 @@ const Assignments = ({assignments, addAssignment, removeAssignment}) => {
   return (
     <div>
       <h1>Teacher View</h1>
-      <AssignmentNewForm handleNewAssignment={handleNewAssignment} newAssignment={newAssignment} setNewAssignment={setNewAssignment} />
+      <CourseNewForm handleNewCourse={handleNewCourse} newCourse={newCourse} setNewCourse={setNewCourse} />
       <br/>
       {renderErrors}
       <div>
-        {assignmentList}
+        {courseList}
       </div>
     </div>
   );
 }
 
-export default Assignments;
+export default Courses;

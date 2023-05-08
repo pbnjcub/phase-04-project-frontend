@@ -4,15 +4,26 @@ import Home from './components/Home';
 import NavBar from './components/NavBar';
 import Students from './components/Students';
 import Student from './components/Student';
+import Courses from './components/Courses';
 
 function App() {
   const [students, setStudents] = useState([]);
+  const [courses, setCourses] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:9393//students")
       .then((resp) => resp.json())
       .then((data) => { 
         setStudents(data)
+        console.log(data)
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:9393//courses")
+      .then((resp) => resp.json())
+      .then((data) => {
+        setCourses(data)
       });
   }, []);
 
@@ -38,6 +49,16 @@ function App() {
       setStudents(updatedStudents);
     }
 
+    const addCourse = newCourse => {
+      const updatedCourses = [...courses, newCourse];
+      setCourses(updatedCourses);
+    }
+
+    const removeCourse = deletedCourse => {
+      const updatedCourses = courses.filter(course => course.id !== deletedCourse.id);
+      setCourses(updatedCourses);
+    }
+
   
   return (
     <div className="App">
@@ -48,6 +69,7 @@ function App() {
             <Route exact path="/" element={<Home />}/>
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent}/>}/>
             <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} students={students} />}/>
+            <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse}/>}/>
           </Routes>
         </div>
       </Router>
