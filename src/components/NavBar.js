@@ -11,6 +11,12 @@ const NavBar = () => {
             <li>
             <   NavLink to="/students">Students</NavLink>
             </li>
+            <li>
+                <NavLink to="/courses">Courses</NavLink>
+            </li>
+            <li>
+                <NavLink to="/assignments">Assignments</NavLink>
+            </li>
 
         </ul>
 

@@ -5,6 +5,7 @@ const CourseNewForm = ({handleNewCourse, newCourse, setNewCourse}) => {
     
     const handleChange = (e) => {
         setNewCourse({ ...newCourse, [e.target.name]: e.target.value });
+
     };
     
 

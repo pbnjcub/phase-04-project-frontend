@@ -23,7 +23,7 @@ const Assignments = ({assignments, addAssignment, removeAssignment}) => {
     };
 
 
-// list of courses
+// list of assignments
   const assignmentList = assignments.map((assignment) => <AssignmentLink key={assignment.id} assignment={assignment} deleteAssignment={deleteAssignment} />);
 
   const handleNewAssignment = (e) => {
@@ -34,7 +34,7 @@ const Assignments = ({assignments, addAssignment, removeAssignment}) => {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
-        body: JSON.stringify(newCourse),
+        body: JSON.stringify(newAssignment),
     })
         .then((resp) => resp.json())
         .then(data => {

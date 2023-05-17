@@ -5,7 +5,8 @@ import React, {useState} from 'react';
 const CourseEditForm = ({selectedCourse, handleEditCourse}) => {
     const [updatedCourse, setUpdatedCourse] = useState({
         id: selectedCourse.id,
-        fname: selectedCourse.name,
+        name: selectedCourse.name,
+        teacher_id: 1,
     });
 
 
@@ -24,8 +25,8 @@ const CourseEditForm = ({selectedCourse, handleEditCourse}) => {
         <div>
             <h1>Course Edit Form</h1>
             <form onSubmit={handleEditSubmit}>
-                <label>First Name</label>
-                <input type="text" name="first_name" value={updatedCourse.name} onChange={handleChange} />
+                <label>Course Name</label>
+                <input type="text" name="name" value={updatedCourse.name} onChange={handleChange} />
                 <input type="submit" value="Submit" />
             </form>
         </div>

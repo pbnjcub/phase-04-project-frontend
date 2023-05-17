@@ -5,10 +5,14 @@ import NavBar from './components/NavBar';
 import Students from './components/Students';
 import Student from './components/Student';
 import Courses from './components/Courses';
+import Course from './components/Course';
+import Assignments from './components/Assignments';
+import Assignment from './components/Assignment';
 
 function App() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [assignments, setAssignments] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:9393//students")
@@ -54,9 +58,31 @@ function App() {
       setCourses(updatedCourses);
     }
 
+    const updateCourse = updatedCourse => {
+      const updatedCourses = courses.map(course => {
+        if (course.id === updatedCourse.id) {
+          return updatedCourse;
+        } else {
+          return course;
+        }
+      });
+      setCourses(updatedCourses);
+    }
+
+
     const removeCourse = deletedCourse => {
       const updatedCourses = courses.filter(course => course.id !== deletedCourse.id);
       setCourses(updatedCourses);
+    }
+
+    const addAssignment = newAssignment => {
+      const updatedAssignments = [...assignments, newAssignment];
+      setAssignments(updatedAssignments);
+    }
+
+    const removeAssignment = deletedAssignment => {
+      const updatedAssignments = assignments.filter(assignment => assignment.id !== deletedAssignment.id);
+      setAssignments(updatedAssignments);
     }
 
   
@@ -70,6 +96,9 @@ function App() {
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent}/>}/>
             <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} students={students} />}/>
             <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse}/>}/>
+            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} />}/>
+            <Route exact path="/assignments" element={<Assignments assignments={assignments} addAssignment={addAssignment} removeAssignment={removeAssignment}/>}/>
+            <Route exact path="/assignments/:id" element={<Assignment assignments={assignments} />}/>
           </Routes>
         </div>
       </Router>

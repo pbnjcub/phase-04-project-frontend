@@ -5,7 +5,7 @@ import CourseNewForm from './CourseNewForm';
 const Courses = ({courses, addCourse, removeCourse}) => {
   const [newCourse, setNewCourse] = useState({
     name: "",
-    teacher_id: ""
+    teacher_id: 1,
   });
   const [errorMessages, setErrorMessages] = useState([]);
 
