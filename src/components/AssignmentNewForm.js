@@ -14,6 +14,8 @@ const AssignmentNewForm = ({handleNewAssignment, newAssignment, setNewAssignment
             <form onSubmit={handleNewAssignment}>
                 <label>Assignment Name</label>
                 <input type="text" name="name" value={newAssignment.name} onChange={handleChange} />
+                <label>Grade</label>
+                <input type="text" name="grade" value={newAssignment.grade} onChange={handleChange} />
                 <input type="submit" value="Submit" />
             </form>
         </div>

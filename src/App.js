@@ -27,6 +27,7 @@ function App() {
     fetch("http://127.0.0.1:9393//courses")
       .then((resp) => resp.json())
       .then((data) => {
+        console.log(data)
         setCourses(data)
       });
   }, []);
@@ -96,7 +97,7 @@ function App() {
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent}/>}/>
             <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} students={students} />}/>
             <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse}/>}/>
-            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} />}/>
+            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} addAssignment={addAssignment} removeStudent={removeStudent} />}/>
             <Route exact path="/assignments" element={<Assignments assignments={assignments} addAssignment={addAssignment} removeAssignment={removeAssignment}/>}/>
             <Route exact path="/assignments/:id" element={<Assignment assignments={assignments} />}/>
           </Routes>

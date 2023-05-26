@@ -20,7 +20,7 @@ const Courses = ({courses, addCourse, removeCourse}) => {
         removeCourse(deletedCourse)
     };
 
-
+console.log(courses)
 // list of courses
   const courseList = courses.map((course) => <CourseLink key={course.id} course={course} deleteCourse={deleteCourse} />);
 

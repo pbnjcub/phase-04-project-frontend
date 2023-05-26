@@ -23,6 +23,7 @@ const Student = ( { students, updateStudent} ) => {
         .then((resp) => resp.json())
         .then(data => {
             if (data.errors) {
+                console.log(data.errors)
                 setErrorMessages(data.errors);
             } else {
                 updateStudent(data)
