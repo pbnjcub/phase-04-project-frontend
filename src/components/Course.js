@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import CourseEditForm from './CourseEditForm';
 import AssignmentNewForm from './AssignmentNewForm';
 import StudentLink from './StudentLink';
 
-const Course = ( { courses, updateCourse, addAssignment, removeStudent} ) => {
+const Course = ( { courses, updateCourse, addAssignment, removeStudent, courseRoster, setCourseRoster} ) => {
   const { id } = useParams();
   const [newAssignment, setNewAssignment] = useState({
     name: "",
@@ -14,7 +15,19 @@ const Course = ( { courses, updateCourse, addAssignment, removeStudent} ) => {
   });
 
   const selectedCourse = courses.find((course) => course.id === parseInt(id));
-  const [courseRoster, setCourseRoster] = useState(selectedCourse.students);
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:9393//courses/${id}`)
+      .then((resp) => resp.json())
+      .then((data) => {
+        setCourseRoster(data.students)
+      });
+  }, []);
+ 
+
+    
+  
+
 
   const [errorMessages, setErrorMessages] = useState([]);
   const [formFlag, setFormFlag] = useState(false);
@@ -43,16 +56,16 @@ const Course = ( { courses, updateCourse, addAssignment, removeStudent} ) => {
         
     };
 
-    const handleEditStudent = (editedStudent) => {
-      const updatedStudents = selectedCourse.students.map((student) => {
-        if (student.id === editedStudent.id) {
-          return editedStudent
-        } else {
-          return student
-        }
-      })
-      setCourseRoster({updatedStudents})
-    };
+    // const handleEditStudent = (editedStudent) => {
+    //   const updatedStudents = selectedCourse.students.map((student) => {
+    //     if (student.id === editedStudent.id) {
+    //       return editedStudent
+    //     } else {
+    //       return student
+    //     }
+    //   })
+    //   setCourseRoster({updatedStudents})
+    // };
 
     const handleNewAssignment = (e) => {
       e.preventDefault();
@@ -86,7 +99,7 @@ const Course = ( { courses, updateCourse, addAssignment, removeStudent} ) => {
       };
 
 
-  const studentList = courseRoster.map((student) => <StudentLink key={student.id} student={student} deleteStudent={deleteStudent} handleEditStudent={handleEditStudent}/>);
+  const studentList = courseRoster.map((student) => <StudentLink key={student.id} student={student} deleteStudent={deleteStudent} />);
 
 
   const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);

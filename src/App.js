@@ -13,6 +13,7 @@ function App() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [assignments, setAssignments] = useState([]);
+  const [courseRoster, setCourseRoster] = useState([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:9393//students")
@@ -41,6 +42,17 @@ function App() {
       const updatedStudents = [...students, newStudent];
       setStudents(updatedStudents);
     }
+
+    const handleEditStudent = (editedStudent) => {
+      const updatedStudents = courseRoster.map((student) => {
+        if (student.id === editedStudent.id) {
+          return editedStudent
+        } else {
+          return student
+        }
+      })
+      setCourseRoster({updatedStudents})
+    };
     
 
     const updateStudent = updatedStudent => {
@@ -95,10 +107,10 @@ function App() {
           <NavBar/>
           <Routes>
             <Route exact path="/" element={<Home />}/>
-            <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent}/>}/>
-            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} students={students} courses={courses} />}/>
+            <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} handleEditStudent={handleEditStudent}/>}/>
+            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} students={students} courses={courses} courseRoster={courseRoster} setCourseRoster={setCourseRoster}/>}/>
             <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse}/>}/>
-            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} addAssignment={addAssignment} removeStudent={removeStudent} />}/>
+            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} addAssignment={addAssignment} removeStudent={removeStudent} courseRoster={courseRoster} setCourseRoster={setCourseRoster} />}/>
             <Route exact path="/assignments" element={<Assignments assignments={assignments} addAssignment={addAssignment} removeAssignment={removeAssignment}/>}/>
             <Route exact path="/assignments/:id" element={<Assignment assignments={assignments} />}/>
           </Routes>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
+
     const [updatedStudent, setUpdatedStudent] = useState({
         id: selectedStudent.id,
         first_name: selectedStudent.first_name,
@@ -10,6 +11,7 @@ const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
     });
     const navigate = useNavigate();
 
+    console.log(updatedStudent)
 
 
     const handleChange = (e) => {
