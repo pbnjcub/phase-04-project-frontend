@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 
-const StudentLink = ({student, deleteStudent }) => {
+const StudentLink = ({student, deleteStudent, handleEditStudent }) => {
     const [deletedStudent, setDeletedStudent] = useState({
         id: student.id,
         first_name: student.first_name,

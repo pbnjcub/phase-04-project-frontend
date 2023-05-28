@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-// import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 
 const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
@@ -8,6 +8,8 @@ const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
         first_name: selectedStudent.first_name,
         last_name: selectedStudent.last_name,
     });
+    const navigate = useNavigate();
+
 
 
     const handleChange = (e) => {
@@ -17,6 +19,7 @@ const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
     const handleEditSubmit = (e) => {
         e.preventDefault();
         handleEditStudent(updatedStudent);
+        navigate(`/students/${selectedStudent.id}`);
     }
 
 

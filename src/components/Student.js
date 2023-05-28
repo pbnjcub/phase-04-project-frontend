@@ -2,12 +2,10 @@ import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
 import StudentEditForm from './StudentEditForm';
 
-const Student = ( { students, updateStudent} ) => {
+const Student = ( { students, updateStudent, courses} ) => {
   const { id } = useParams();
 
   const selectedStudent = students.find((student) => student.id === parseInt(id));
-
-
   const [errorMessages, setErrorMessages] = useState([]);
   const [formFlag, setFormFlag] = useState(false);
 
@@ -23,9 +21,9 @@ const Student = ( { students, updateStudent} ) => {
         .then((resp) => resp.json())
         .then(data => {
             if (data.errors) {
-                console.log(data.errors)
                 setErrorMessages(data.errors);
             } else {
+                console.log(data)
                 updateStudent(data)
                 setFormFlag(false)
                 setErrorMessages([])
@@ -41,7 +39,7 @@ const Student = ( { students, updateStudent} ) => {
       <br />
       <br />
       {formFlag ?
-        <StudentEditForm selectedStudent={selectedStudent} handleEditStudent={handleEditStudent} /> :
+        <StudentEditForm selectedStudent={selectedStudent} handleEditStudent={handleEditStudent} courses={courses}/> :
         <button onClick={() => setFormFlag(true)}>Edit Student</button>}
       <br />
       {renderErrors}
