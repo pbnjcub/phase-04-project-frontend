@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './components/Signup';
 import Login from './components/Login';
@@ -16,11 +17,13 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
 
   const handleCurrentUser = (user) => {
     if(user.username) {
       setCurrentUser(user);
       setLoggedIn(true);
+      navigate("/courses");
       }
     }
 
@@ -34,7 +37,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:9393//students")
+    fetch("http://localhost:3000/students")
       .then((resp) => resp.json())
       .then((data) => { 
         setStudents(data)
@@ -42,7 +45,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:9393//courses")
+    fetch("http://localhost:3000/courses")
       .then((resp) => resp.json())
       .then((data) => {
         setCourses(data)

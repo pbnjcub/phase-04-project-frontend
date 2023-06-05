@@ -20,7 +20,7 @@ const Course = ( { courses, updateCourse, removeStudent, addStudent} ) => {
 
   
   const handleEditCourse = (editedCourse) => {
-    fetch(`http://127.0.0.1:9393/courses/${editedCourse.id}`, {
+    fetch(`http://localhost:3000/courses/${editedCourse.id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const Course = ( { courses, updateCourse, removeStudent, addStudent} ) => {
 
     const handleNewStudent = (e) => {
       e.preventDefault();
-      fetch("http://127.0.0.1:9393/students", {
+      fetch("http://localhost:3000/students", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const Course = ( { courses, updateCourse, removeStudent, addStudent} ) => {
     
 
       const deleteStudent = (deletedStudent) => {
-        fetch(`http://127.0.0.1:9393//students/${deletedStudent.id}`, {
+        fetch(`http://localhost:3000/students/${deletedStudent.id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

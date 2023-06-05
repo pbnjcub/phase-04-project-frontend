@@ -1,6 +1,6 @@
 export const createAccount = async (details, handleCurrentUser) => {
         console.log(details)
-      const resp = await fetch('http://127.0.0.1:9393/signup', {
+      const resp = await fetch('/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ export const logout = async (e, logoutCurrentUser) => {
 }
 
 export const getCurrentUser = async (handleCurrentUser) => {
-      const response = await fetch('http://127.0.0.1:9393/current-user', {
+      const response = await fetch('/current-user', {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',

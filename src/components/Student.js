@@ -10,7 +10,7 @@ const Student = ( { students, updateStudent, updateCourse, courses} ) => {
   const [formFlag, setFormFlag] = useState(false);
 
   const handleEditStudent = (editedStudent) => {
-    fetch(`http://127.0.0.1:9393/students/${editedStudent.id}`, {
+    fetch(`http://localhost:3000/students/${editedStudent.id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",

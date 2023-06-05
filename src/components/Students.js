@@ -28,7 +28,7 @@ const Students = ({students, addStudent, removeStudent}) => {
 
   const handleNewStudent = (e) => {
     e.preventDefault();
-    fetch("http://127.0.0.1:9393/students", {
+    fetch("http://localhost:3000/students", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

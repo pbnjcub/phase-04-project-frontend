@@ -8,7 +8,6 @@ const Signup = ({handleCurrentUser}) => {
         first_name: "",
         last_name: "",
         email: "",
-        password_digest: "",
     })
 
     const handleChange = (e) => {
@@ -38,8 +37,6 @@ const Signup = ({handleCurrentUser}) => {
                 <input type="text" name="last_name" value={newUserTeacher.last_name} onChange={handleChange} />
                 <label>Email</label>
                 <input type="text" name="email" value={newUserTeacher.email} onChange={handleChange} />
-                 {/* Hidden field for password_digest */}
-                <input type="hidden" name="password_digest" value={newUserTeacher.password_digest} />
                 <input type="submit" value="Signup" />
             </form>
 

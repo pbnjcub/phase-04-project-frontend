@@ -2,7 +2,7 @@ import React, {useState } from 'react';
 import CourseLink from './CourseLink';
 import CourseNewForm from './CourseNewForm';
 
-const Courses = ({courses, addCourse, removeCourse}) => {
+const Courses = ({courses, addCourse, removeCourse, currentUser}) => {
   const [newCourse, setNewCourse] = useState({
     name: "",
     teacher_id: 1,
@@ -10,7 +10,7 @@ const Courses = ({courses, addCourse, removeCourse}) => {
   const [errorMessages, setErrorMessages] = useState([]);
 
  const deleteCourse = (deletedCourse) => {
-      fetch(`http://127.0.0.1:9393//courses/${deletedCourse.id}`, {
+      fetch(`http://localhost:3000/courses/${deletedCourse.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +24,7 @@ const Courses = ({courses, addCourse, removeCourse}) => {
 
   const handleNewCourse = (e) => {
     e.preventDefault();
-    fetch("http://127.0.0.1:9393/courses", {
+    fetch("http://localhost:3000/courses", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
