@@ -11,7 +11,6 @@ const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
     });
     const navigate = useNavigate();
 
-    console.log(updatedStudent)
 
 
     const handleChange = (e) => {
@@ -21,6 +20,7 @@ const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
     const handleEditSubmit = (e) => {
         e.preventDefault();
         handleEditStudent(updatedStudent);
+        
         navigate(`/students/${selectedStudent.id}`);
     }
 

@@ -21,7 +21,6 @@ const Courses = ({courses, addCourse, removeCourse}) => {
     };
 
 // list of courses
-  const courseList = courses.map((course) => <CourseLink key={course.id} course={course} deleteCourse={deleteCourse} />);
 
   const handleNewCourse = (e) => {
     e.preventDefault();
@@ -44,6 +43,9 @@ const Courses = ({courses, addCourse, removeCourse}) => {
         })
         
     };
+
+    const courseList = courses.map((course) => <CourseLink key={course.id} course={course} deleteCourse={deleteCourse} />);
+
 
     const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
 

@@ -1,26 +1,43 @@
 import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import Logout from './components/Logout';
 import Home from './components/Home';
 import NavBar from './components/NavBar';
 import Students from './components/Students';
 import Student from './components/Student';
 import Courses from './components/Courses';
 import Course from './components/Course';
-import Assignments from './components/Assignments';
-import Assignment from './components/Assignment';
+import { getCurrentUser } from './actions/auth';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
-  const [assignments, setAssignments] = useState([]);
-  const [courseRoster, setCourseRoster] = useState([]);
+
+  const handleCurrentUser = (user) => {
+    if(user.username) {
+      setCurrentUser(user);
+      setLoggedIn(true);
+      }
+    }
+
+  const logoutCurrentUser = () => {
+    setCurrentUser(null);
+    setLoggedIn(false);
+  }
+
+  useEffect(() => {
+    getCurrentUser(handleCurrentUser)
+  }, []);
 
   useEffect(() => {
     fetch("http://127.0.0.1:9393//students")
       .then((resp) => resp.json())
       .then((data) => { 
         setStudents(data)
-        console.log(data)
       });
   }, []);
 
@@ -33,26 +50,17 @@ function App() {
   }, []);
 
 
+
     const removeStudent = deletedStudent => {
       const updatedStudents = students.filter(student => student.id !== deletedStudent.id);
       setStudents(updatedStudents);
     }
 
+
     const addStudent = newStudent => {
       const updatedStudents = [...students, newStudent];
       setStudents(updatedStudents);
     }
-
-    const handleEditStudent = (editedStudent) => {
-      const updatedStudents = courseRoster.map((student) => {
-        if (student.id === editedStudent.id) {
-          return editedStudent
-        } else {
-          return student
-        }
-      })
-      setCourseRoster({updatedStudents})
-    };
     
 
     const updateStudent = updatedStudent => {
@@ -63,8 +71,19 @@ function App() {
           return student;
         }
       });
-      console.log(updatedStudents)
       setStudents(updatedStudents);
+
+      const updatedCourses = courses.map(course => {
+        const updatedStudents = course.students.map(student => {
+          if (student.id === updatedStudent.id) {
+            return updatedStudent;
+          } else {
+            return student;
+          }
+        })
+        return {...course, students: updatedStudents}
+      })
+      setCourses(updatedCourses);
     }
 
     const addCourse = newCourse => {
@@ -83,36 +102,25 @@ function App() {
       setCourses(updatedCourses);
     }
 
-
     const removeCourse = deletedCourse => {
       const updatedCourses = courses.filter(course => course.id !== deletedCourse.id);
       setCourses(updatedCourses);
     }
-
-    const addAssignment = newAssignment => {
-      const updatedAssignments = [...assignments, newAssignment];
-      setAssignments(updatedAssignments);
-    }
-
-    const removeAssignment = deletedAssignment => {
-      const updatedAssignments = assignments.filter(assignment => assignment.id !== deletedAssignment.id);
-      setAssignments(updatedAssignments);
-    }
-
   
   return (
     <div className="App">
       <Router>
         <div>
-          <NavBar/>
+          <NavBar loggedIn={ loggedIn } logoutCurrentUser={logoutCurrentUser} />
           <Routes>
             <Route exact path="/" element={<Home />}/>
-            <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} handleEditStudent={handleEditStudent}/>}/>
-            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} students={students} courses={courses} courseRoster={courseRoster} setCourseRoster={setCourseRoster}/>}/>
-            <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse}/>}/>
-            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} addAssignment={addAssignment} removeStudent={removeStudent} courseRoster={courseRoster} setCourseRoster={setCourseRoster} />}/>
-            <Route exact path="/assignments" element={<Assignments assignments={assignments} addAssignment={addAssignment} removeAssignment={removeAssignment}/>}/>
-            <Route exact path="/assignments/:id" element={<Assignment assignments={assignments} />}/>
+            <Route exact path="/signup" element={<Signup setCurrentUser={setCurrentUser} handleCurrentUser={handleCurrentUser} setLoggedIn={setLoggedIn} />}/>
+            <Route exact path="/login" element={<Login setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} handleCurrentUser={handleCurrentUser} />}/>
+            <Route exact path="/logout" element={<Logout logoutCurrentUser={logoutCurrentUser} />}/>
+            <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} />}/>
+            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} courses={courses} />}/>
+            <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} currentUser={currentUser} />}/>
+            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} removeStudent={removeStudent}  addStudent={addStudent} />}/>
           </Routes>
         </div>
       </Router>

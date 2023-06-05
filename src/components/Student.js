@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
 import StudentEditForm from './StudentEditForm';
 
-const Student = ( { students, updateStudent, courses} ) => {
+const Student = ( { students, updateStudent, updateCourse, courses} ) => {
   const { id } = useParams();
 
   const selectedStudent = students.find((student) => student.id === parseInt(id));
@@ -23,11 +23,12 @@ const Student = ( { students, updateStudent, courses} ) => {
             if (data.errors) {
                 setErrorMessages(data.errors);
             } else {
-                console.log(data)
                 updateStudent(data)
                 setFormFlag(false)
                 setErrorMessages([])
+
             }
+
         })
         
     };
