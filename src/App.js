@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signup from './components/Signup';
 import Login from './components/Login';
@@ -17,19 +16,19 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
-  const navigate = useNavigate();
 
   const handleCurrentUser = (user) => {
+    console.log(user)
     if(user.username) {
       setCurrentUser(user);
       setLoggedIn(true);
-      navigate("/courses");
       }
     }
 
   const logoutCurrentUser = () => {
     setCurrentUser(null);
     setLoggedIn(false);
+
   }
 
   useEffect(() => {
@@ -122,7 +121,9 @@ function App() {
             <Route exact path="/logout" element={<Logout logoutCurrentUser={logoutCurrentUser} />}/>
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} />}/>
             <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} courses={courses} />}/>
-            <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} currentUser={currentUser} />}/>
+            {loggedIn && (
+              <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} currentUser={currentUser} />} />
+              )}
             <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} removeStudent={removeStudent}  addStudent={addStudent} />}/>
           </Routes>
         </div>

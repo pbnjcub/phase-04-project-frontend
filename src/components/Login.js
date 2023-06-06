@@ -1,22 +1,25 @@
 import React, {useState} from 'react';
 import { login } from '../actions/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({handleCurrentUser}) => {
-    const [state, setState] = useState({
+    const [userTeacher, setUserTeacher] = useState({
         username: "",
         password: "",
     })
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
-        setState({
-            ...state,
+        setUserTeacher({
+            ...userTeacher,
             [e.target.name]: e.target.value,
         })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        login(state, handleCurrentUser);
+        login(userTeacher, handleCurrentUser);
+        navigate("/courses");
     }
     
     return (
@@ -24,9 +27,9 @@ const Login = ({handleCurrentUser}) => {
             <h1>Login</h1>
             <form onSubmit={handleSubmit}>
                 <label>Username</label>
-                <input type="text" name="username" value={state.username} onChange={handleChange} />
+                <input type="text" name="username" value={userTeacher.username} onChange={handleChange} />
                 <label>Password</label>
-                <input type="password" name="password" value={state.password} onChange={handleChange} />
+                <input type="password" name="password" value={userTeacher.password} onChange={handleChange} />
                 <input type="submit" value="Submit" />
             </form>
         </div>
