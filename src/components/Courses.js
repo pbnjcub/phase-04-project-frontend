@@ -5,9 +5,10 @@ import CourseNewForm from './CourseNewForm';
 const Courses = ({courses, addCourse, removeCourse, currentUser}) => {
   const [newCourse, setNewCourse] = useState({
     name: "",
-    teacher_id: 1,
+    teacher_id: currentUser.teacher.id,
   });
   const [errorMessages, setErrorMessages] = useState([]);
+  const [teacherCourses, setTeacherCourses] = useState(courses.filter((course) => course.teacher_id === currentUser.teacher.id));
 
  const deleteCourse = (deletedCourse) => {
       fetch(`http://localhost:3000/courses/${deletedCourse.id}`, {
@@ -44,7 +45,7 @@ const Courses = ({courses, addCourse, removeCourse, currentUser}) => {
         
     };
 
-    const courseList = courses.map((course) => <CourseLink key={course.id} course={course} deleteCourse={deleteCourse} />);
+    const courseList = teacherCourses.map((course) => <CourseLink key={course.id} course={course} deleteCourse={deleteCourse} />);
 
 
     const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
@@ -53,6 +54,7 @@ const Courses = ({courses, addCourse, removeCourse, currentUser}) => {
   return (
     <div>
       <h1>Teacher View</h1>
+      <h2>Teacher: {currentUser.teacher.last_name}, {currentUser.teacher.first_name}</h2>
       <CourseNewForm handleNewCourse={handleNewCourse} newCourse={newCourse} setNewCourse={setNewCourse} />
       <br/>
       {renderErrors}
