@@ -89,7 +89,9 @@ function App() {
     }
 
     const addCourse = newCourse => {
+      console.log(newCourse)
       const updatedCourses = [...courses, newCourse];
+      console.log(updatedCourses)
       setCourses(updatedCourses);
     }
 
@@ -119,7 +121,7 @@ function App() {
             <Route exact path="/signup" element={<Signup setCurrentUser={setCurrentUser} handleCurrentUser={handleCurrentUser} setLoggedIn={setLoggedIn} />}/>
             <Route exact path="/login" element={<Login setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} handleCurrentUser={handleCurrentUser} />}/>
             <Route exact path="/logout" element={<Logout logoutCurrentUser={logoutCurrentUser} />}/>
-            <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} />}/>
+            <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} currentUser={currentUser} />}/>
             <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} courses={courses} />}/>
             {loggedIn && (
               <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} currentUser={currentUser} />} />

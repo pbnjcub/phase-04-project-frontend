@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useState, useEffect } from 'react';
 import CourseLink from './CourseLink';
 import CourseNewForm from './CourseNewForm';
 
@@ -7,8 +7,16 @@ const Courses = ({courses, addCourse, removeCourse, currentUser}) => {
     name: "",
     teacher_id: currentUser.teacher.id,
   });
+
   const [errorMessages, setErrorMessages] = useState([]);
-  const [teacherCourses, setTeacherCourses] = useState(courses.filter((course) => course.teacher_id === currentUser.teacher.id));
+  const [teacherCourses, setTeacherCourses] = useState([]);
+
+  // const [teacherCourses, setTeacherCourses] = useState(courses.filter((course) => course.teacher_id === currentUser.teacher.id));
+  
+  useEffect(() => {
+    setTeacherCourses(courses.filter((course) => course.teacher_id === currentUser.teacher.id));
+  }, [courses, currentUser.teacher.id]);
+
 
  const deleteCourse = (deletedCourse) => {
       fetch(`http://localhost:3000/courses/${deletedCourse.id}`, {

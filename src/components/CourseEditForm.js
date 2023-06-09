@@ -6,7 +6,7 @@ const CourseEditForm = ({selectedCourse, handleEditCourse}) => {
     const [updatedCourse, setUpdatedCourse] = useState({
         id: selectedCourse.id,
         name: selectedCourse.name,
-        teacher_id: 1,
+        teacher_id: selectedCourse.teacher_id,
     });
 
 

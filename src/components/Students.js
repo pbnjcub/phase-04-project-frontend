@@ -8,6 +8,7 @@ const Students = ({students, addStudent, removeStudent}) => {
     last_name: "",
   });
   const [errorMessages, setErrorMessages] = useState([]);
+  
 
  const deleteStudent = (deletedStudent) => {
       fetch(`http://127.0.0.1:9393//students/${deletedStudent.id}`, {
