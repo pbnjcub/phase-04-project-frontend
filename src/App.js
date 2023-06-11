@@ -18,7 +18,6 @@ function App() {
   const [courses, setCourses] = useState([]);
 
   const handleCurrentUser = (user) => {
-    console.log(user)
     if(user.username) {
       setCurrentUser(user);
       setLoggedIn(true);
@@ -126,7 +125,7 @@ function App() {
             {loggedIn && (
               <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} currentUser={currentUser} />} />
               )}
-            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} removeStudent={removeStudent}  addStudent={addStudent} />}/>
+            <Route exact path="/courses/:id" element={<Course updateCourse={updateCourse} courses={courses} students={students} removeStudent={removeStudent} addStudent={addStudent} />}/>
           </Routes>
         </div>
       </Router>
