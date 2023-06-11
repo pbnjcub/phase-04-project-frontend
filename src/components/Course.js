@@ -67,23 +67,23 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
       });
   };
 
-  const deleteStudent = (deletedStudent) => {
-    // Delete the student on the server
-    fetch(`http://localhost:3000/students/${deletedStudent.id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-    })
-      .then(() => {
-        removeStudent(deletedStudent);
+  // const deleteStudent = (deletedStudent) => {
+  //   // Delete the student on the server
+  //   fetch(`http://localhost:3000/students/${deletedStudent.id}`, {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "Accept": "application/json",
+  //     },
+  //   })
+  //     .then(() => {
+  //       removeStudent(deletedStudent);
 
-        const updatedCourse = { ...selectedCourse };
-        updatedCourse.students = updatedCourse.students.filter((student) => student.id !== deletedStudent.id);
-        updateCourse(updatedCourse);
-      });
-  };
+  //       const updatedCourse = { ...selectedCourse };
+  //       updatedCourse.students = updatedCourse.students.filter((student) => student.id !== deletedStudent.id);
+  //       updateCourse(updatedCourse);
+  //     });
+  // };
 
   const handleEnrollment = (studentId, grade) => {
     fetch(`http://localhost:3000/enroll/`, {
@@ -106,10 +106,26 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
         updateCourse(updatedCourse);
       });
   };
+
+  const unenrollStudent = (student) => {
+    fetch(`http://localhost:3000/unenroll/${student.id}/${selectedCourse.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then((resp) => resp.json())
+      .then(() => {
+        const updatedCourse = { ...selectedCourse };
+        updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
+        updateCourse(updatedCourse);
+      });
+  };
   
 
   const enrolledStudents = selectedCourse.students.map((student) => (
-    <StudentLink key={student.id} student={student} deleteStudent={deleteStudent} courseId={id} />
+    <StudentLink key={student.id} student={student} unenrollStudent={unenrollStudent} courseId={id} />
   ));
 
   const unenrolledStudents = students.filter((student) => {
