@@ -26,8 +26,8 @@ const CourseEditForm = ({selectedCourse, handleEditCourse}) => {
             <h1>Course Edit Form</h1>
             <form onSubmit={handleEditSubmit}>
                 <label>Course Name</label>
-                <input type="text" name="name" value={updatedCourse.name} onChange={handleChange} />
-                <input type="submit" value="Submit" />
+                    <input className="pure-input-1" type="text" name="name" value={updatedCourse.name} onChange={handleChange} />
+                    <button className="pure-button pure-button-primary" type="submit" value="Submit">Submit</button>
             </form>
         </div>
     );

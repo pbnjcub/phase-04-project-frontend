@@ -31,13 +31,13 @@ const NavBar = ({loggedIn, logoutCurrentUser}) => {
                 <a href="/" className="pure-menu-heading pure-menu-link">GradeGuru</a>
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item">
-                        <NavLink to="/">Home</NavLink>
+                        <NavLink className="pure-menu-link" to="/">Home</NavLink>
                     </li>
                     <li className="pure-menu-item">
-                        <NavLink to="/signup">Create Account</NavLink>
+                        <NavLink className="pure-menu-link" to="/signup">Create Account</NavLink>
                     </li>
                     <li className="pure-menu-item">
-                        <NavLink to="/login">Login</NavLink>
+                        <NavLink className="pure-menu-link" to="/login">Login</NavLink>
                     </li>
                 </ul>
             </div>

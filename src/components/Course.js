@@ -2,21 +2,15 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CourseEditForm from './CourseEditForm';
 import StudentLink from './StudentLink';
-import StudentNewForm from './StudentNewForm';
 import EnrollmentDropdown from './EnrollmentDropdown';
 
-const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) => {
+
+const Course = ({ courses, updateCourse, students }) => {
   const { id } = useParams();
   const selectedCourse = courses.find((course) => course.id === parseInt(id));
-  const [newStudent, setNewStudent] = useState({
-    first_name: "",
-    last_name: "",
-    course_id: selectedCourse.id,
-  });
 
   const [errorMessages, setErrorMessages] = useState([]);
   const [formFlag, setFormFlag] = useState(false);
-  const [studentNewFormFlag, setStudentNewFormFlag] = useState(false);
 
   const handleEditCourse = (editedCourse) => {
     // Update the course on the server
@@ -40,31 +34,7 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
       });
   };
 
-  const handleNewStudent = (e) => {
-    e.preventDefault();
-    // Create a new student on the server
-    fetch("http://localhost:3000/students", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(newStudent),
-    })
-      .then((resp) => resp.json())
-      .then(data => {
-        if (data.errors) {
-          setErrorMessages(data.errors);
-        } else {
-          addStudent(data);
-          setErrorMessages([]);
-
-          const updatedCourse = { ...selectedCourse };
-          updatedCourse.students.push(data);
-          updateCourse(updatedCourse);
-        }
-      });
-  };
+ 
 
   const handleEnrollment = (studentId, grade) => {
     fetch(`http://localhost:3000/enroll/`, {
@@ -84,9 +54,11 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
         const enrolledStudent = students.find((student) => student.id === parseInt(data.student_id));
         const updatedCourse = { ...selectedCourse };
         updatedCourse.students.push(enrolledStudent);
+        updatedCourse.courses_students.push(data); // Add the enrollment data to courses_students
         updateCourse(updatedCourse);
       });
   };
+  
 
   const unenrollStudent = (student) => {
     fetch(`http://localhost:3000/unenroll/${student.id}/${selectedCourse.id}`, {
@@ -103,27 +75,27 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
         updateCourse(updatedCourse);
       });
   };
-  console.log(selectedCourse);
 
   const enrolledStudents = selectedCourse.students.map((student) => {
-    const enrollment = selectedCourse.courses_students.find(
-      (enrollment) => enrollment.student_id === student.id
+    const enrolled = selectedCourse.courses_students.find(
+      (enrolled) => enrolled.student_id === student.id
     );
-    const grade = enrollment ? enrollment.grade : "N/A";
+    const grade = enrolled.grade;
+
   
     return (
       <StudentLink
         key={student.id}
         student={student}
         unenrollStudent={unenrollStudent}
-        courseId={id}
+        courseId={selectedCourse.id}
         grade={grade}
       />
     );
   });
   
 
-  console.log(enrolledStudents);
+
 
   const unenrolledStudents = students.filter((student) => {
     return !selectedCourse.students.some((enrolledStudent) => enrolledStudent.id === student.id);
@@ -139,7 +111,7 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
       </h3>
       <br />
       <h3>Enrolled Students:</h3>
-      <table>
+      <table className="pure-table pure-table-horizontal">
         <thead>
           <tr>
             <th>Name</th>
@@ -161,21 +133,12 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
       <br />
       <h3>Enroll New Student:</h3>
       <EnrollmentDropdown unenrolledStudents={unenrolledStudents} handleEnrollment={handleEnrollment} />
-      {studentNewFormFlag ? (
-        <StudentNewForm
-          selectedCourse={selectedCourse}
-          newStudent={newStudent}
-          setNewStudent={setNewStudent}
-          handleNewStudent={handleNewStudent}
-        />
-      ) : (
-        <button onClick={() => setStudentNewFormFlag(true)}>Add Student</button>
-      )}
+      
       <br />
       {formFlag ? (
         <CourseEditForm selectedCourse={selectedCourse} handleEditCourse={handleEditCourse} updateCourse={updateCourse} />
       ) : (
-        <button onClick={() => setFormFlag(true)}>Edit Course</button>
+        <button className="pure-button pure-button-primary" onClick={() => setFormFlag(true)}>Edit Course</button>
       )}
       <br />
       {renderErrors}

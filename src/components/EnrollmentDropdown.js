@@ -4,12 +4,12 @@ const EnrollmentDropdown = ({ unenrolledStudents, handleEnrollment }) => {
   const [selectedStudentId, setSelectedStudentId] = useState(null);
   const [grade, setGrade] = useState('');
 
-  const handleStudentChange = (event) => {
-    setSelectedStudentId(event.target.value);
+  const handleStudentChange = (e) => {
+    setSelectedStudentId(e.target.value);
   };
 
-  const handleGradeChange = (event) => {
-    setGrade(event.target.value);
+  const handleGradeChange = (e) => {
+    setGrade(e.target.value);
   };
 
   const handleEnrollmentClick = () => {
@@ -36,12 +36,7 @@ const EnrollmentDropdown = ({ unenrolledStudents, handleEnrollment }) => {
 
       {selectedStudentId && (
         <div>
-          <input
-            type="text"
-            placeholder="Enter grade"
-            value={grade}
-            onChange={handleGradeChange}
-          />
+          <input type="text" placeholder="Enter grade" value={grade} onChange={handleGradeChange}/>
           <br />
           <button onClick={handleEnrollmentClick}>
             Enroll

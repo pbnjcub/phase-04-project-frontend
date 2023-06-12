@@ -10,7 +10,8 @@ import Student from './components/Student';
 import Courses from './components/Courses';
 import Course from './components/Course';
 import { getCurrentUser } from './actions/auth';
-import './styles.css'
+import './styles.css';
+
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);

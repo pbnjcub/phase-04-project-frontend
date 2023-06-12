@@ -20,6 +20,7 @@ const Students = ({students, addStudent, removeStudent}) => {
         removeStudent(deletedStudent)
     };
   
+    
 
 
 // // list of students last names
@@ -33,8 +34,7 @@ const studentList = students.map((student) => (
 //   // find student by id
 //   const student = students.find((student) => student.id === id);
 
-  const handleNewStudent = (e) => {
-    e.preventDefault();
+  const handleNewStudent = (newStudent) => {
     fetch("http://localhost:3000/students", {
         method: "POST",
         headers: {
@@ -60,12 +60,23 @@ const studentList = students.map((student) => (
 
   return (
     <div>
-      <h1>Teacher View</h1>
+      <h1>All Students</h1>
       <StudentNewForm handleNewStudent={handleNewStudent} newStudent={newStudent} setNewStudent={setNewStudent} />
       <br/>
       {renderErrors}
       <div>
-        {studentList}
+        <table className="pure-table pure-table-horizontal">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {studentList}
+          </tbody>
+        </table>
+
       </div>
     </div>
   );
