@@ -34,7 +34,7 @@ const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
                 <input type="text" name="first_name" value={updatedStudent.first_name} onChange={handleChange} />
                 <label>Last Name</label>
                 <input type="text" name="last_name" value={updatedStudent.last_name} onChange={handleChange} />
-                <input type="submit" value="Submit" />
+                <button type="submit" value="Submit" className="pure-button">Submit Edits</button>
             </form>
         </div>
     );

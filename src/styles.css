@@ -33,8 +33,15 @@ label {
  * -- LAYOUT STYLES --
  * These are some useful classes which I will need
  */
-.l-box {
+
+ .main {
     padding: 1em;
+    margin: 10px 20px 20px;
+}
+
+.l-box {
+    padding: 100em;
+    margin: 10px 50px 20px;
 }
 
 .l-box-lrg {

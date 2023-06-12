@@ -15,7 +15,7 @@ const StudentLink = ({ student, unenrollStudent, grade }) => {
       </td>
       <td>{grade}</td>
       <td>
-        <button className="pure-button pure-button-primary" onClick={handleUnenrollClick}>Unenroll</button>
+        <button className="pure-button" onClick={handleUnenrollClick}>Unenroll</button>
       </td>
     </tr>
   );

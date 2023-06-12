@@ -16,15 +16,15 @@ const StudentLinkDelete = ({student, deleteStudent}) => {
 
     return (
         <tr>
-        <td>
-          <Link to={`/students/${student.id}`}>
-            {student.first_name} {student.last_name}
-          </Link>
-        </td>
-        <td>
-        <button className="pure-button pure-button-primary" onClick={handleDelete}>Delete</button>
-        </td>
-      </tr>
+            <td>
+                <Link to={`/students/${student.id}`}>
+                    {student.first_name} {student.last_name}
+                </Link>
+            </td>
+            <td>
+                <button className="pure-button" onClick={handleDelete}>Delete</button>
+            </td>
+        </tr>
     
     );
 }

@@ -34,28 +34,37 @@ const Student = ( { students, updateStudent, updateCourse, courses} ) => {
         
     };
 
-    const studentDetail = selectedStudent.courses.map((course) => {
-      const enrollment = selectedStudent.courses_students.find(
-        (enrollment) => enrollment.course_id === course.id
+    const getGrade = (courseId) => {
+      const enrolled = selectedStudent.courses_students.find(
+        (enrolled) => enrolled.course_id === courseId
       );
-      const grade = enrollment.grade;
-    
-      return (
-        <StudentEnrollmentInfo
-          key={course.id}
-          enrolledCourse={course.name}
-          grade={grade}
-        />
+      return enrolled.grade;
+    };
+
+    const studentDetail = selectedStudent.courses.map((course) => {
+      const grade = getGrade(course.id);
+      return (<StudentEnrollmentInfo key={course.id} enrolledCourse={course.name} grade={grade}/>
       );
     });
     
 
   const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
   return (
-    <div>
+    <div className="main">
       <h1>Student Report for {selectedStudent.last_name}, {selectedStudent.first_name} </h1>
       <br />
-      {studentDetail}
+      <h3>Enrolled Courses</h3>
+      <table className="pure-table pure-table-horizontal">
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th>Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          {studentDetail}
+        </tbody>
+      </table>
       <br />
       {formFlag ?
         <StudentEditForm selectedStudent={selectedStudent} handleEditStudent={handleEditStudent} courses={courses}/> :

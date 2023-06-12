@@ -59,7 +59,7 @@ const studentList = students.map((student) => (
 
 
   return (
-    <div>
+    <div className="main">
       <h1>All Students</h1>
       <StudentNewForm handleNewStudent={handleNewStudent} newStudent={newStudent} setNewStudent={setNewStudent} />
       <br/>

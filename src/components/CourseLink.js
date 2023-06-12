@@ -14,12 +14,18 @@ const CourseLink = ({course, deleteCourse }) => {
     }
 
     return (
-        <h3>
-            <Link to={`/courses/${course.id}`}>
-                {course.name}
-            </Link>
-            -- <button onClick={handleDelete}>Delete Course</button>
-        </h3>
+        <tr>
+            <td>
+                <Link to={`/courses/${course.id}`}>
+                    {course.name}
+                </Link>
+            </td>
+            <td>
+                <button className="pure-button" onClick={handleDelete}>Delete</button>
+            </td>
+
+        </tr>
+        
     );
 }
 

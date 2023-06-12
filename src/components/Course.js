@@ -5,7 +5,7 @@ import StudentLink from './StudentLink';
 import EnrollmentDropdown from './EnrollmentDropdown';
 
 
-const Course = ({ courses, updateCourse, students }) => {
+const Course = ({ courses, updateCourse, updateStudent, students }) => {
   const { id } = useParams();
   const selectedCourse = courses.find((course) => course.id === parseInt(id));
 
@@ -52,10 +52,23 @@ const Course = ({ courses, updateCourse, students }) => {
       .then((resp) => resp.json())
       .then((data) => {
         const enrolledStudent = students.find((student) => student.id === parseInt(data.student_id));
+
+        const updatedStudent = { ...enrolledStudent };
+        updatedStudent.courses.push(selectedCourse);
+        updatedStudent.courses_students.push(data); // Add the enrollment data to courses_students
+        const updatedStudents = students.map((student) => {
+          if (student.id === updatedStudent.id) {
+            return updatedStudent;
+          } else {
+            return student;
+          }
+        });
+
         const updatedCourse = { ...selectedCourse };
         updatedCourse.students.push(enrolledStudent);
         updatedCourse.courses_students.push(data); // Add the enrollment data to courses_students
         updateCourse(updatedCourse);
+        updateStudent(updatedStudent)
       });
   };
   
@@ -69,12 +82,18 @@ const Course = ({ courses, updateCourse, students }) => {
       },
     })
       .then((resp) => resp.json())
-      .then(() => {
+      .then((data) => {
+        console.log(data); // Check the response data
         const updatedCourse = { ...selectedCourse };
         updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
+        updatedCourse.courses_students.push(data); // Add the enrollment data to courses_students
         updateCourse(updatedCourse);
+      })
+      .catch((error) => {
+        console.log(error); // Log any error that occurred
       });
   };
+  
 
   const enrolledStudents = selectedCourse.students.map((student) => {
     const enrolled = selectedCourse.courses_students.find(
@@ -104,7 +123,7 @@ const Course = ({ courses, updateCourse, students }) => {
   const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
 
   return (
-    <div>
+    <div className="main">
       <h1>Course Overview: {selectedCourse.name}</h1>
       <h3>
         Teacher: {selectedCourse.teacher.last_name}, {selectedCourse.teacher.first_name}
@@ -138,7 +157,7 @@ const Course = ({ courses, updateCourse, students }) => {
       {formFlag ? (
         <CourseEditForm selectedCourse={selectedCourse} handleEditCourse={handleEditCourse} updateCourse={updateCourse} />
       ) : (
-        <button className="pure-button pure-button-primary" onClick={() => setFormFlag(true)}>Edit Course</button>
+        <button className="pure-button" onClick={() => setFormFlag(true)}>Edit Course</button>
       )}
       <br />
       {renderErrors}

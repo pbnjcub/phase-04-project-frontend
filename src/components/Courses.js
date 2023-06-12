@@ -31,8 +31,7 @@ const Courses = ({courses, addCourse, removeCourse, currentUser}) => {
 
 // list of courses
 
-  const handleNewCourse = (e) => {
-    e.preventDefault();
+  const handleNewCourse = (newCourse) => {
     fetch("http://localhost:3000/courses", {
         method: "POST",
         headers: {
@@ -60,14 +59,24 @@ const Courses = ({courses, addCourse, removeCourse, currentUser}) => {
 
 
   return (
-    <div>
+    <div className="main">
       <h1>Teacher View</h1>
-      <h2>Teacher: {currentUser.teacher.last_name}, {currentUser.teacher.first_name}</h2>
+      <h4>Teacher: {currentUser.teacher.last_name}, {currentUser.teacher.first_name}</h4>
       <CourseNewForm handleNewCourse={handleNewCourse} newCourse={newCourse} setNewCourse={setNewCourse} />
       <br/>
       {renderErrors}
       <div>
-        {courseList}
+        <table className="pure-table pure-table-horizontal">
+          <thead>
+            <tr>
+              <th>Course</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {courseList}
+          </tbody>
+        </table>
       </div>
     </div>
   );

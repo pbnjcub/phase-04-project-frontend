@@ -7,15 +7,23 @@ const CourseNewForm = ({handleNewCourse, newCourse, setNewCourse}) => {
         setNewCourse({ ...newCourse, [e.target.name]: e.target.value });
 
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleNewCourse(newCourse);
+        setNewCourse({
+            name: "",
+        });
+    };
     
 
     return (
         <div>
-            <h1>New Course Form</h1>
-            <form onSubmit={handleNewCourse}>
+            <h3>New Course Form</h3>
+            <form onSubmit={handleSubmit}>
                 <label>Name of Course</label>
                 <input type="text" name="name" value={newCourse.name} onChange={handleChange} />
-                <input type="submit" value="Submit" />
+                <button type="submit" value="Submit" className="pure-button">Add Course</button>
             </form>
         </div>
     );

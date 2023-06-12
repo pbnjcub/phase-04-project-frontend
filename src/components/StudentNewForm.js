@@ -27,7 +27,7 @@ const StudentNewForm = ({ handleNewStudent }) => {
             <input type="text" name="first_name" value={newStudent.first_name} onChange={handleChange} />
             <label>Last Name</label>
             <input type="text" name="last_name" value={newStudent.last_name} onChange={handleChange} />
-            <button type="submit" className="pure-button pure-button-primary">Submit</button>
+            <button type="submit" className="pure-button">Submit</button>
        
       </form>
     </div>
