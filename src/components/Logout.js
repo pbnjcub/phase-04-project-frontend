@@ -1,19 +1,14 @@
 import React from 'react';
-import { useNavigate} from 'react-router-dom'; 
 import { logout } from '../actions/auth';
 
-const Logout = ({ logoutCurrentUser }) => {
-    const navigate = useNavigate();
-        const handleLogout = () => {
-            logout(logoutCurrentUser);
-            navigate("/");
-        }
-    
-        return (
-            <div>
-                <button onClick={handleLogout}>Logout</button>
-            </div>
-        )
-    }
+const Logout = ({logoutCurrentUser}) => {
+    logout(logoutCurrentUser);
+                 
+    return (
+        <div>
+            <h1>You have been successfully logged out!</h1>
+        </div>
+    )
+}
 
-    export default Logout;
+export default Logout;

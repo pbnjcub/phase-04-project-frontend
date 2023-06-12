@@ -2,7 +2,7 @@ import React from 'react';
 
 const Home = () => {
   return (
-    <div>
+    <div className="is-center">
         <h1>Welcome to GradeGuru</h1>
         <br />
         <h2>What is GradeGuru?</h2>

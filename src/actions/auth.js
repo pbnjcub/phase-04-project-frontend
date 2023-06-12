@@ -1,3 +1,6 @@
+
+
+
 export const createAccount = async (details, handleCurrentUser) => {
       const resp = await fetch('/signup', {
         method: 'POST',
@@ -31,8 +34,8 @@ export const login = async (details, handleCurrentUser) => {
 
 }
 
-export const logout = async (e, logoutCurrentUser) => {
-  e.preventDefault();
+export const logout = async (logoutCurrentUser) => {
+  // e.preventDefault();
   await fetch('/logout', {
     method: "DELETE",
     headers: {
@@ -55,7 +58,6 @@ export const getCurrentUser = async (handleCurrentUser) => {
       });
   
       const data = await response.json();
-      console.log(data);
       handleCurrentUser(data);
     }   
 

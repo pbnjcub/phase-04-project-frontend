@@ -8,7 +8,6 @@ import EnrollmentDropdown from './EnrollmentDropdown';
 const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) => {
   const { id } = useParams();
   const selectedCourse = courses.find((course) => course.id === parseInt(id));
-
   const [newStudent, setNewStudent] = useState({
     first_name: "",
     last_name: "",
@@ -67,24 +66,6 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
       });
   };
 
-  // const deleteStudent = (deletedStudent) => {
-  //   // Delete the student on the server
-  //   fetch(`http://localhost:3000/students/${deletedStudent.id}`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "Accept": "application/json",
-  //     },
-  //   })
-  //     .then(() => {
-  //       removeStudent(deletedStudent);
-
-  //       const updatedCourse = { ...selectedCourse };
-  //       updatedCourse.students = updatedCourse.students.filter((student) => student.id !== deletedStudent.id);
-  //       updateCourse(updatedCourse);
-  //     });
-  // };
-
   const handleEnrollment = (studentId, grade) => {
     fetch(`http://localhost:3000/enroll/`, {
       method: 'POST',
@@ -122,11 +103,27 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
         updateCourse(updatedCourse);
       });
   };
+  console.log(selectedCourse);
+
+  const enrolledStudents = selectedCourse.students.map((student) => {
+    const enrollment = selectedCourse.courses_students.find(
+      (enrollment) => enrollment.student_id === student.id
+    );
+    const grade = enrollment ? enrollment.grade : "N/A";
+  
+    return (
+      <StudentLink
+        key={student.id}
+        student={student}
+        unenrollStudent={unenrollStudent}
+        courseId={id}
+        grade={grade}
+      />
+    );
+  });
   
 
-  const enrolledStudents = selectedCourse.students.map((student) => (
-    <StudentLink key={student.id} student={student} unenrollStudent={unenrollStudent} courseId={id} />
-  ));
+  console.log(enrolledStudents);
 
   const unenrolledStudents = students.filter((student) => {
     return !selectedCourse.students.some((enrolledStudent) => enrolledStudent.id === student.id);
@@ -142,14 +139,28 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
       </h3>
       <br />
       <h3>Enrolled Students:</h3>
-      {enrolledStudents}
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Grade</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {enrolledStudents.length > 0 ? (
+            enrolledStudents
+          ) : (
+            <tr>
+              <td colSpan="3">No enrolled students</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
       <br />
       <br />
       <h3>Enroll New Student:</h3>
-      <EnrollmentDropdown
-        unenrolledStudents={unenrolledStudents}
-        handleEnrollment={handleEnrollment}
-      />
+      <EnrollmentDropdown unenrolledStudents={unenrolledStudents} handleEnrollment={handleEnrollment} />
       {studentNewFormFlag ? (
         <StudentNewForm
           selectedCourse={selectedCourse}
@@ -162,11 +173,7 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
       )}
       <br />
       {formFlag ? (
-        <CourseEditForm
-          selectedCourse={selectedCourse}
-          handleEditCourse={handleEditCourse}
-          updateCourse={updateCourse}
-        />
+        <CourseEditForm selectedCourse={selectedCourse} handleEditCourse={handleEditCourse} updateCourse={updateCourse} />
       ) : (
         <button onClick={() => setFormFlag(true)}>Edit Course</button>
       )}
@@ -174,6 +181,7 @@ const Course = ({ courses, updateCourse, removeStudent, addStudent, students }) 
       {renderErrors}
     </div>
   );
+  
 };
 
 export default Course;

@@ -1,23 +1,24 @@
 import React from 'react';
 import { NavLink} from 'react-router-dom';
-import { logout } from '../actions/auth';
+
 
 const NavBar = ({loggedIn, logoutCurrentUser}) => {
     if(loggedIn) {
         return (
-            <div>
-                <ul>
-                    <li>
-                        <NavLink to="/">Home</NavLink>
+            <div className="pure-menu pure-menu-horizontal">
+                <a href="/" className="pure-menu-heading pure-menu-link">GradeGuru</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item">
+                        <NavLink className="pure-menu-link" to="/">Home</NavLink>
                     </li>
-                    <li>
-                    <   NavLink to="/students">Students</NavLink>
+                    <li class="pure-menu-item">
+                        <NavLink className="pure-menu-link" to="/students">Students</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/courses">Courses</NavLink>
+                    <li class="pure-menu-item">
+                        <NavLink className="pure-menu-link" to="/courses">Courses</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/logout" onClick={ (e) => logout(e, logoutCurrentUser)}>Logout</NavLink>
+                    <li class="pure-menu-item">
+                        <NavLink className="pure-menu-link" to="/logout">Logout</NavLink>
                     </li>
 
                 </ul>
@@ -26,15 +27,16 @@ const NavBar = ({loggedIn, logoutCurrentUser}) => {
         );
     } else {
         return (
-            <div>
-                <ul>
-                    <li>
+            <div className="pure-menu pure-menu-horizontal">
+                <a href="/" className="pure-menu-heading pure-menu-link">GradeGuru</a>
+                <ul className="pure-menu-list">
+                    <li className="pure-menu-item">
                         <NavLink to="/">Home</NavLink>
                     </li>
-                    <li>
+                    <li className="pure-menu-item">
                         <NavLink to="/signup">Create Account</NavLink>
                     </li>
-                    <li>
+                    <li className="pure-menu-item">
                         <NavLink to="/login">Login</NavLink>
                     </li>
                 </ul>

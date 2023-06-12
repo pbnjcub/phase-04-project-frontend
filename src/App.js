@@ -10,12 +10,14 @@ import Student from './components/Student';
 import Courses from './components/Courses';
 import Course from './components/Course';
 import { getCurrentUser } from './actions/auth';
+import './styles.css'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
+
 
   const handleCurrentUser = (user) => {
     if(user.username) {
@@ -27,12 +29,28 @@ function App() {
   const logoutCurrentUser = () => {
     setCurrentUser(null);
     setLoggedIn(false);
-
   }
 
   useEffect(() => {
     getCurrentUser(handleCurrentUser)
   }, []);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/students")
+  //     .then((resp) => resp.json())
+  //     .then((data) => {
+  //       console.log(data)
+  //       const studentObjectWithGrade = data.map((student) => {
+  //         student.map((course) => {
+  //         return {
+  //           ...student,
+  //           grade: student.courses.[0]?.grade || null,
+  //         };
+  //       });
+  //       setStudents(updatedStudents);
+  //     });
+  // }, []);
+  
 
   useEffect(() => {
     fetch("http://localhost:3000/students")
@@ -41,6 +59,7 @@ function App() {
         setStudents(data)
       });
   }, []);
+
 
   useEffect(() => {
     fetch("http://localhost:3000/courses")
@@ -88,9 +107,7 @@ function App() {
     }
 
     const addCourse = newCourse => {
-      console.log(newCourse)
       const updatedCourses = [...courses, newCourse];
-      console.log(updatedCourses)
       setCourses(updatedCourses);
     }
 
@@ -121,7 +138,7 @@ function App() {
             <Route exact path="/login" element={<Login setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} handleCurrentUser={handleCurrentUser} />}/>
             <Route exact path="/logout" element={<Logout logoutCurrentUser={logoutCurrentUser} />}/>
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} currentUser={currentUser} />}/>
-            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} courses={courses} />}/>
+            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} courses={courses}  />}/>
             {loggedIn && (
               <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} currentUser={currentUser} />} />
               )}

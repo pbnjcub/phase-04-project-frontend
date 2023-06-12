@@ -1,5 +1,5 @@
 import React, {useState } from 'react';
-import StudentLink from './StudentLink';
+import StudentLinkDelete from './StudentLinkDelete';
 import StudentNewForm from './StudentNewForm';
 
 const Students = ({students, addStudent, removeStudent}) => {
@@ -9,7 +9,6 @@ const Students = ({students, addStudent, removeStudent}) => {
   });
   const [errorMessages, setErrorMessages] = useState([]);
   
-
  const deleteStudent = (deletedStudent) => {
       fetch(`http://127.0.0.1:9393//students/${deletedStudent.id}`, {
         method: "DELETE",
@@ -20,10 +19,17 @@ const Students = ({students, addStudent, removeStudent}) => {
       })
         removeStudent(deletedStudent)
     };
+  
 
 
 // // list of students last names
-  const studentList = students.map((student) => <StudentLink key={student.id} student={student} deleteStudent={deleteStudent} />);
+const studentList = students.map((student) => (
+    <StudentLinkDelete key={student.id} student={student} deleteStudent={deleteStudent} />
+  ));
+
+
+
+
 //   // find student by id
 //   const student = students.find((student) => student.id === id);
 
@@ -65,4 +71,4 @@ const Students = ({students, addStudent, removeStudent}) => {
   );
 }
 
-export default Students;
+export default Students
