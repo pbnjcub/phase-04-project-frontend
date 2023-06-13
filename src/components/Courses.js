@@ -1,17 +1,18 @@
 import React, {useState, useEffect } from 'react';
 import CourseLink from './CourseLink';
 import CourseNewForm from './CourseNewForm';
+import UserContext from './UserContext';
 
-const Courses = ({courses, addCourse, removeCourse, currentUser}) => {
+const Courses = ({courses, addCourse, removeCourse}) => {
+  const {currentUser, setCurrentUser} = React.useContext(UserContext);
   const [newCourse, setNewCourse] = useState({
     name: "",
     teacher_id: currentUser.teacher.id,
   });
+  
 
   const [errorMessages, setErrorMessages] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState([]);
-
-  // const [teacherCourses, setTeacherCourses] = useState(courses.filter((course) => course.teacher_id === currentUser.teacher.id));
   
   useEffect(() => {
     setTeacherCourses(courses.filter((course) => course.teacher_id === currentUser.teacher.id));

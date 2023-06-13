@@ -81,18 +81,16 @@ const Course = ({ courses, updateCourse, updateStudent, students }) => {
         Accept: 'application/json',
       },
     })
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data); // Check the response data
-        const updatedCourse = { ...selectedCourse };
-        updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
-        updatedCourse.courses_students.push(data); // Add the enrollment data to courses_students
-        updateCourse(updatedCourse);
-      })
-      .catch((error) => {
-        console.log(error); // Log any error that occurred
-      });
+      const updatedCourse = { ...selectedCourse };
+      updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
+      updateCourse(updatedCourse);
   };
+
+        // const updatedCourse = { ...selectedCourse };
+        // updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
+        // updatedCourse.courses_students.push(data); // Add the enrollment data to courses_students
+        // updateCourse(updatedCourse);
+
   
 
   const enrolledStudents = selectedCourse.students.map((student) => {

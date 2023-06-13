@@ -1,7 +1,7 @@
 
 
 
-export const createAccount = async (details, handleCurrentUser) => {
+export const createAccount = async (details, handleCurrentUser, handleError) => {
       const resp = await fetch('/signup', {
         method: 'POST',
         headers: {

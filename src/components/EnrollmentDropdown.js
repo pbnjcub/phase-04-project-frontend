@@ -15,7 +15,7 @@ const EnrollmentDropdown = ({ unenrolledStudents, handleEnrollment }) => {
   const handleEnrollmentClick = () => {
     if (selectedStudentId) {
       handleEnrollment(selectedStudentId, grade);
-      setSelectedStudentId(null);
+      setSelectedStudentId("");
       setGrade('');
     }
   };
