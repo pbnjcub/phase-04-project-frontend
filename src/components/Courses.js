@@ -9,7 +9,6 @@ const Courses = ({courses, addCourse, removeCourse}) => {
     name: "",
     teacher_id: currentUser.teacher.id,
   });
-  
 
   const [errorMessages, setErrorMessages] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState([]);
@@ -63,7 +62,7 @@ const Courses = ({courses, addCourse, removeCourse}) => {
     <div className="main">
       <h1>Teacher View</h1>
       <h4>Teacher: {currentUser.teacher.last_name}, {currentUser.teacher.first_name}</h4>
-      <CourseNewForm handleNewCourse={handleNewCourse} newCourse={newCourse} setNewCourse={setNewCourse} />
+      <CourseNewForm handleNewCourse={handleNewCourse} newCourse={newCourse} setNewCourse={setNewCourse} teacherId={currentUser.teacher.id}/>
       <br/>
       {renderErrors}
       <div>

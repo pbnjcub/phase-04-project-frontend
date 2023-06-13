@@ -130,7 +130,7 @@ function App() {
               <Route
                 exact
                 path="/courses"
-                element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} currentUser={currentUser} />}
+                element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} />}
               />
             )}
             <Route

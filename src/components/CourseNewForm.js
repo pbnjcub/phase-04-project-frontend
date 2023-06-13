@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CourseNewForm = ({handleNewCourse, newCourse, setNewCourse}) => {
+const CourseNewForm = ({handleNewCourse, newCourse, setNewCourse, teacherId}) => {
 
     
     const handleChange = (e) => {
@@ -13,6 +13,7 @@ const CourseNewForm = ({handleNewCourse, newCourse, setNewCourse}) => {
         handleNewCourse(newCourse);
         setNewCourse({
             name: "",
+            teacher_id: teacherId,
         });
     };
     
