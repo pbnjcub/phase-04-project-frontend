@@ -5,36 +5,14 @@ import StudentLink from './StudentLink';
 import EnrollmentDropdown from './EnrollmentDropdown';
 
 
-const Course = ({ courses, updateCourse, updateStudent, students }) => {
+const Course = ({ courses, updateCourse, updateStudent, students, setStudents }) => {
   const { id } = useParams();
   const selectedCourse = courses.find((course) => course.id === parseInt(id));
 
   const [errorMessages, setErrorMessages] = useState([]);
   const [formFlag, setFormFlag] = useState(false);
 
-  const handleEditCourse = (editedCourse) => {
-    // Update the course on the server
-    fetch(`http://localhost:3000/courses/${editedCourse.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(editedCourse),
-    })
-      .then((resp) => resp.json())
-      .then(data => {
-        if (data.errors) {
-          setErrorMessages(data.errors);
-        } else {
-          updateCourse(data);
-          setFormFlag(false);
-          setErrorMessages([]);
-        }
-      });
-  };
 
- 
 
   const handleEnrollment = (studentId, grade) => {
     fetch(`http://localhost:3000/enroll/`, {
@@ -85,12 +63,6 @@ const Course = ({ courses, updateCourse, updateStudent, students }) => {
       updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
       updateCourse(updatedCourse);
   };
-
-        // const updatedCourse = { ...selectedCourse };
-        // updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
-        // updatedCourse.courses_students.push(data); // Add the enrollment data to courses_students
-        // updateCourse(updatedCourse);
-
   
 
   const enrolledStudents = selectedCourse.students.map((student) => {
@@ -98,7 +70,6 @@ const Course = ({ courses, updateCourse, updateStudent, students }) => {
       (enrolled) => enrolled.student_id === student.id
     );
     const grade = enrolled.grade;
-
   
     return (
       <StudentLink
@@ -117,6 +88,46 @@ const Course = ({ courses, updateCourse, updateStudent, students }) => {
   const unenrolledStudents = students.filter((student) => {
     return !selectedCourse.students.some((enrolledStudent) => enrolledStudent.id === student.id);
   });
+
+  const handleEditCourse = (editedCourse) => {
+    fetch(`http://localhost:3000/courses/${editedCourse.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(editedCourse),
+    })
+      .then((resp) => resp.json())
+      .then(data => {
+        if (data.errors) {
+          setErrorMessages(data.errors);
+        } else {
+          updateCourse(data);
+         
+          const updatedStudents = students.map((student) => {
+            const updatedCourses = student.courses.map((course) => {
+              if (course.id === editedCourse.id) {
+                return {
+                  ...course,
+                  name: editedCourse.name,
+                };
+              } else {
+                return course;
+              }
+            });
+            return {
+              ...student,
+              courses: updatedCourses,
+            };
+
+          });
+          setStudents(updatedStudents)
+          setFormFlag(false);
+          setErrorMessages([]);
+        }
+      });
+  };
 
   const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
 

@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### GRADEGURU
+GradeGuru is a web application that allows teachers to manage courses and students. It provides features for creating, updating, and deleting courses, as well as enrolling and unenrolling students from courses. The app is built using React on the frontend and Ruby on Rails on the backend.
 
-## Available Scripts
+### FEATURES
+- User authentication: Teachers can sign up, log in, and log out of the app.
+- Course management: teachers can create new courses, update course details, and delete courses, and should only see their own courses.
+- Student management: Teachers can view a list of students, enroll students in courses, and unenroll students from courses.
 
-In the project directory, you can run:
+### Technologies used
+-React
+-Ruby on Rails
+-HTML and CSS
+-JavaScript
 
-### `npm start`
+Model, View Controller, Rails Generators, RESTful Routing, Full CRUD capabilities, Many-to-Many relationship between Courses and Students, User Authorization
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Setup and Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Clone the repository: 
+    - backend
+        git clone https://github.com/pbnjcub/phase-04-project-backend
+    - frontend
+        git clone https://github.com/pbnjcub/phase-04-project-frontend
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Navigate to the project directory:
 
-### `npm run build`
+    cd phase-04-project-backend
+    cd phase-04-project-frontend
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Install the front end and back end dependencies
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    - frontend
+        npm install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    - backend
+        bundle install
 
-### `npm run eject`
+4. Set up the database
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    - rails db:create
+    - rails db:migrate
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. Start the backend server on localhost:3000
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    rails s
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+6. Start the frontend development server on localhost:4000
 
-## Learn More
+    npm start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+7. Browser should automatically open to 'http://localhost:4000'
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Contributing
+Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### License
+GradeGuru is open source.

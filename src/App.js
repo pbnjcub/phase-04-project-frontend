@@ -68,6 +68,7 @@ function App() {
     setStudents(updatedStudents);
   };
 
+
   const addCourse = (newCourse) => {
     const updatedCourses = [...courses, newCourse];
     setCourses(updatedCourses);
@@ -124,7 +125,7 @@ function App() {
             <Route
               exact
               path="/students/:id"
-              element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} courses={courses} />}
+              element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} setCourses={setCourses} courses={courses} />}
             />
             {loggedIn && (
               <Route

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import StudentEditForm from './StudentEditForm';
 import StudentEnrollmentInfo from './StudentEnrollmentInfo';
 
-const Student = ( { students, updateStudent, updateCourse, courses} ) => {
+const Student = ( { students, updateStudent, updateCourse, setCourses, courses} ) => {
   const { id } = useParams();
 
   const selectedStudent = students.find((student) => student.id === parseInt(id));
@@ -25,12 +25,34 @@ const Student = ( { students, updateStudent, updateCourse, courses} ) => {
                 setErrorMessages(data.errors);
             } else {
                 updateStudent(data)
-                setFormFlag(false)
-                setErrorMessages([])
 
-            }
+                const updatedCourses = courses.map((course) => {
+                  const updatedStudents = course.students.map((student) => {
+                    if (student.id === editedStudent.id) {
+                      return {
+                        ...student,
+                        last_name: editedStudent.last_name,
+                        first_name: editedStudent.first_name,
+                      };
+                    } else {
+                      return student;
+                    }
+                  });
+                  console.log(updatedStudents)
+                  return {
+                    ...course,
+                    students: updatedStudents,
+                  };
+                });
+                console.log(updatedCourses)
+                
 
-        })
+                  setCourses(updatedCourses);
+                  setFormFlag(false)
+                  setErrorMessages([])
+                }
+
+            })
         
     };
 
