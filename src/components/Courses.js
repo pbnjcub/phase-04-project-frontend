@@ -1,9 +1,9 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import CourseLink from './CourseLink';
 import CourseNewForm from './CourseNewForm';
 import UserContext from './UserContext';
 
-const Courses = ({courses, addCourse, removeCourse}) => {
+const Courses = ({teacherCourses, addCourse, removeCourse}) => {
   const {currentUser, setCurrentUser} = React.useContext(UserContext);
   const [newCourse, setNewCourse] = useState({
     name: "",
@@ -11,15 +11,11 @@ const Courses = ({courses, addCourse, removeCourse}) => {
   });
 
   const [errorMessages, setErrorMessages] = useState([]);
-  const [teacherCourses, setTeacherCourses] = useState([]);
-  
-  useEffect(() => {
-    setTeacherCourses(courses.filter((course) => course.teacher_id === currentUser.teacher.id));
-  }, [courses, currentUser.teacher.id]);
-
+  const [teacherId, setTeacherId] = useState(parseInt(currentUser.teacher.id));
 
  const deleteCourse = (deletedCourse) => {
-      fetch(`http://localhost:3000/courses/${deletedCourse.id}`, {
+    const courseId = deletedCourse.id;
+      fetch(`http://localhost:3000/teachers/${teacherId}/courses/${courseId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -29,10 +25,9 @@ const Courses = ({courses, addCourse, removeCourse}) => {
         removeCourse(deletedCourse)
     };
 
-// list of courses
 
-  const handleNewCourse = (newCourse) => {
-    fetch("http://localhost:3000/courses", {
+  const handleNewCourse = (newCourse, teacherId) => {
+    fetch(`http://localhost:3000/teachers/${teacherId}/courses`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -45,6 +40,7 @@ const Courses = ({courses, addCourse, removeCourse}) => {
             if (data.errors) {
                 setErrorMessages(data.errors);
             } else {
+                console.log(data)
                 addCourse(data);
                 setErrorMessages([])
             }
@@ -52,7 +48,7 @@ const Courses = ({courses, addCourse, removeCourse}) => {
         
     };
 
-    const courseList = teacherCourses.map((course) => <CourseLink key={course.id} course={course} deleteCourse={deleteCourse} />);
+    const courseList = teacherCourses.map((course) => <CourseLink key={course.id} course={course} teacherid={teacherId} deleteCourse={deleteCourse} />);
 
 
     const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
@@ -62,7 +58,7 @@ const Courses = ({courses, addCourse, removeCourse}) => {
     <div className="main">
       <h1>Teacher View</h1>
       <h4>Teacher: {currentUser.teacher.last_name}, {currentUser.teacher.first_name}</h4>
-      <CourseNewForm handleNewCourse={handleNewCourse} newCourse={newCourse} setNewCourse={setNewCourse} teacherId={currentUser.teacher.id}/>
+      <CourseNewForm handleNewCourse={handleNewCourse} newCourse={newCourse} setNewCourse={setNewCourse} teacherId={teacherId}/>
       <br/>
       {renderErrors}
       <div>

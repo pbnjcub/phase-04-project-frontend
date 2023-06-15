@@ -18,6 +18,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [teacherCourses, setTeacherCourses] = useState([]);
 
   const handleCurrentUser = (user) => {
     if (user.username) {
@@ -36,7 +37,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/students")
+    fetch("http://localhost:3000/students/all_students")
       .then((resp) => resp.json())
       .then((data) => {
         setStudents(data);
@@ -70,20 +71,24 @@ function App() {
 
 
   const addCourse = (newCourse) => {
-    const updatedCourses = [...courses, newCourse];
-    setCourses(updatedCourses);
+    const updatedCourses = [...teacherCourses, newCourse];
+    setTeacherCourses(updatedCourses);
   };
 
   const updateCourse = (updatedCourse) => {
-    const updatedCourses = courses.map((course) =>
+    const updatedCourses = teacherCourses.map((course) =>
       course.id === updatedCourse.id ? updatedCourse : course
     );
-    setCourses(updatedCourses);
+    setTeacherCourses(updatedCourses);
+  };
+
+  const handleTeacherCourses = (teacherCourses) => {
+    setTeacherCourses(teacherCourses);
   };
 
   const removeCourse = (deletedCourse) => {
-    const updatedCourses = courses.filter((course) => course.id !== deletedCourse.id);
-    setCourses(updatedCourses);
+    const updatedCourses = teacherCourses.filter((course) => course.id !== deletedCourse.id);
+    setTeacherCourses(updatedCourses);
   };
 
   return (
@@ -95,15 +100,15 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/signup" element={<Signup setCurrentUser={setCurrentUser} handleCurrentUser={handleCurrentUser} setLoggedIn={setLoggedIn}/>}/>
-            <Route exact path="/login" element={<Login setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} handleCurrentUser={handleCurrentUser}/>}/>
+            <Route exact path="/login" element={<Login setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} handleCurrentUser={handleCurrentUser} handleTeacherCourses={handleTeacherCourses} />}/>
             <Route exact path="/logout" element={<Logout logoutCurrentUser={logoutCurrentUser} />} />
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} currentUser={currentUser} />}/>
             <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} setCourses={setCourses} courses={courses} />}/>
             {loggedIn && (
-              <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} />}/>
+              <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} teacherCourses={teacherCourses} />}/>
             )}
             <Route exact path="/courses/:id"
-              element={<Course updateCourse={updateCourse} courses={courses} students={students} setStudents={setStudents} updateStudent={updateStudent} removeStudent={removeStudent} addStudent={addStudent}/>}/>
+              element={<Course updateCourse={updateCourse} teacherCourses={teacherCourses} students={students} setStudents={setStudents} updateStudent={updateStudent} removeStudent={removeStudent} addStudent={addStudent}/>}/>
           </Routes>
         </div>
         </UserContext.Provider>

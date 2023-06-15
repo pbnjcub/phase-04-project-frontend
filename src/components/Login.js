@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { login } from '../actions/auth';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({handleCurrentUser}) => {
+const Login = ({handleCurrentUser, handleTeacherCourses}) => {
     const [userTeacher, setUserTeacher] = useState({
         username: "",
         password: "",
@@ -16,11 +16,12 @@ const Login = ({handleCurrentUser}) => {
             [e.target.name]: e.target.value,
         })
     }
+        
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await login(userTeacher, handleCurrentUser);
-
+        const response = login(userTeacher, handleCurrentUser, handleTeacherCourses);
+        console.log(response)
         if (response.errors) {
             setErrorMessages(response.errors);
         } else {

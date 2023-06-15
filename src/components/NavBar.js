@@ -30,7 +30,9 @@ const NavBar = ({loggedIn}) => {
     } else {
         return (
             <div className="pure-menu pure-menu-horizontal">
-                <a href="/" className="pure-menu-heading pure-menu-link">GradeGuru</a>
+                <a href="/" className="pure-menu-heading pure-menu-link">
+                    <img src="./GradeGuruLogo.png" alt="GradeGuru Logo" width="100" height="auto"/>
+                </a>
                 <ul className="pure-menu-list">
                     <li className="pure-menu-item">
                         <NavLink className="pure-menu-link" to="/">Home</NavLink>

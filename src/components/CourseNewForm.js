@@ -1,7 +1,6 @@
 import React from 'react';
 
 const CourseNewForm = ({handleNewCourse, newCourse, setNewCourse, teacherId}) => {
-
     
     const handleChange = (e) => {
         setNewCourse({ ...newCourse, [e.target.name]: e.target.value });
@@ -10,7 +9,7 @@ const CourseNewForm = ({handleNewCourse, newCourse, setNewCourse, teacherId}) =>
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleNewCourse(newCourse);
+        handleNewCourse(newCourse, teacherId);
         setNewCourse({
             name: "",
             teacher_id: teacherId,
