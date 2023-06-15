@@ -13,6 +13,7 @@ const Signup = ({handleCurrentUser}) => {
         },
       });
     const navigate = useNavigate();
+    const [errorMessages, setErrorMessages] = useState([]);
 
       const handleChange = (e) => {
         if (e.target.name.includes("teacher")) {
@@ -32,15 +33,26 @@ const Signup = ({handleCurrentUser}) => {
       };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        createAccount(newUserTeacher, handleCurrentUser);
-        navigate("/courses");
-    }
+        const response = await createAccount(newUserTeacher, handleCurrentUser);
+
+        if (response.errors) {
+            setErrorMessages(response.errors);
+        } else {
+          navigate("/courses");
+          setErrorMessages([]);
+      }
+    };
+
+    const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
 
     return (
         <div>
             <h1>Create Teacher Account</h1>
+            <br />
+            {renderErrors}
+            <br />
             <form onSubmit={handleSubmit}>
                 <label>Username</label>
                 <input type="text" name="username" value={newUserTeacher.username} onChange={handleChange} />

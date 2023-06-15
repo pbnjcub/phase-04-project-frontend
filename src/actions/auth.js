@@ -11,8 +11,13 @@ export const createAccount = async (details, handleCurrentUser, handleError) => 
         body: JSON.stringify(details),
         withCredentials: true
       });
-      const data = await resp.json();
-      handleCurrentUser(data)
+      if (resp.ok) {
+        const data = await resp.json();
+        handleCurrentUser(data)
+      } else {
+        const errorData = await resp.json();
+        return { errors: errorData.errors}
+      }
     }
   
   
@@ -27,12 +32,14 @@ export const login = async (details, handleCurrentUser) => {
         body: JSON.stringify(details),
         withCredentials: true
     })
-
-    const data = await resp.json()
-
-    handleCurrentUser(data)
-
-}
+    if (resp.ok) {
+      const data = await resp.json()
+      handleCurrentUser(data)
+    } else {
+      const errorData = await resp.json()
+      return { errors: errorData.errors }
+    }
+  }
 
 export const logout = async (logoutCurrentUser) => {
   // e.preventDefault();

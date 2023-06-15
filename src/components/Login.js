@@ -8,6 +8,7 @@ const Login = ({handleCurrentUser}) => {
         password: "",
     })
     const navigate = useNavigate();
+    const [errorMessages, setErrorMessages] = useState([]);
 
     const handleChange = (e) => {
         setUserTeacher({
@@ -16,15 +17,27 @@ const Login = ({handleCurrentUser}) => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        login(userTeacher, handleCurrentUser);
-        navigate("/courses");
-    }
+        const response = await login(userTeacher, handleCurrentUser);
+
+        if (response.errors) {
+            setErrorMessages(response.errors);
+        } else {
+          navigate("/courses");
+          setErrorMessages([]);
+      }
+    };
+
+    const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
+
     
     return (
         <div>
             <h1>Login</h1>
+            <br />
+            {renderErrors}
+            <br />
             <form onSubmit={handleSubmit}>
                 <label>Username</label>
                 <input type="text" name="username" value={userTeacher.username} autoComplete="username" onChange={handleChange} />
