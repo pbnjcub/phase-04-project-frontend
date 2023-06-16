@@ -17,7 +17,7 @@ const NavBar = ({loggedIn}) => {
                         <NavLink className="pure-menu-link" to="/students">Students</NavLink>
                     </li>
                     <li className="pure-menu-item">
-                        <NavLink className="pure-menu-link" to="/courses">Courses</NavLink>
+                        <NavLink className="pure-menu-link" to="/teachers/:teacherId/courses">Courses</NavLink>
                     </li>
                     <li className="pure-menu-item">
                         <NavLink className="pure-menu-link" to="/logout">Logout</NavLink>

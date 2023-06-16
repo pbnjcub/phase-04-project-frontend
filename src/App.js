@@ -19,6 +19,8 @@ function App() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState([]);
+  const [studentCourses, setStudentCourses] = useState([])
+
 
   const handleCurrentUser = (user) => {
     if (user.username) {
@@ -69,6 +71,13 @@ function App() {
     setStudents(updatedStudents);
   };
 
+  const updateStudentCourses = (updatedStudent) => {
+    const updatedStudents = students.map((student) =>
+      student.id === updatedStudent.id ? updatedStudent : student
+    );
+    setStudents(updatedStudents);
+  };
+
 
   const addCourse = (newCourse) => {
     const updatedCourses = [...teacherCourses, newCourse];
@@ -99,17 +108,16 @@ function App() {
           <NavBar loggedIn={loggedIn} logoutCurrentUser={logoutCurrentUser} />
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route exact path="/signup" element={<Signup setCurrentUser={setCurrentUser} handleCurrentUser={handleCurrentUser} setLoggedIn={setLoggedIn}/>}/>
+            <Route exact path="/signup" element={<Signup setCurrentUser={setCurrentUser} handleCurrentUser={handleCurrentUser} setLoggedIn={setLoggedIn} handleTeacherCourses={handleTeacherCourses}/>}/>
             <Route exact path="/login" element={<Login setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} handleCurrentUser={handleCurrentUser} handleTeacherCourses={handleTeacherCourses} />}/>
             <Route exact path="/logout" element={<Logout logoutCurrentUser={logoutCurrentUser} />} />
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} currentUser={currentUser} />}/>
-            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} setCourses={setCourses} courses={courses} />}/>
+            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} setCourses={setCourses} studentCourses={studentCourses} />}/>
             {loggedIn && (
-              <Route exact path="/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} teacherCourses={teacherCourses} />}/>
+              <Route exact path="/teachers/:teacher_id/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} teacherCourses={teacherCourses} />}/>
             )}
-            <Route exact path="/courses/:id"
-              element={<Course updateCourse={updateCourse} teacherCourses={teacherCourses} students={students} setStudents={setStudents} updateStudent={updateStudent} removeStudent={removeStudent} addStudent={addStudent}/>}/>
-          </Routes>
+            <Route exact path="/teachers/:teacher_id/courses/:id" element={<Course updateCourse={updateCourse} teacherCourses={teacherCourses} students={students} setStudents={setStudents} updateStudent={updateStudent} removeStudent={removeStudent} addStudent={addStudent}/>}/>
+            </Routes>
         </div>
         </UserContext.Provider>
       </Router>

@@ -40,7 +40,6 @@ const Courses = ({teacherCourses, addCourse, removeCourse}) => {
             if (data.errors) {
                 setErrorMessages(data.errors);
             } else {
-                console.log(data)
                 addCourse(data);
                 setErrorMessages([])
             }

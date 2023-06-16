@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 
-const CourseLink = ({course, deleteCourse }) => {
+const CourseLink = ({course, deleteCourse, teacherId }) => {
     const [deletedCourse, setDeletedCourse] = useState({
         id: course.id,
         name: course.name,
-        teacher_id: course.teacher_id,
+        teacher_id: teacherId,
     });
 
 
@@ -16,7 +16,7 @@ const CourseLink = ({course, deleteCourse }) => {
     return (
         <tr>
             <td>
-                <Link to={`/courses/${course.id}`}>
+                <Link to={`/teachers/:teacher_id/courses/${course.id}`}>
                     {course.name}
                 </Link>
             </td>

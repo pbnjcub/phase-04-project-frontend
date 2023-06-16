@@ -21,11 +21,10 @@ const Login = ({handleCurrentUser, handleTeacherCourses}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = login(userTeacher, handleCurrentUser, handleTeacherCourses);
-        console.log(response)
         if (response.errors) {
             setErrorMessages(response.errors);
         } else {
-          navigate("/courses");
+          navigate("/teachers/:teacher_id/courses");
           setErrorMessages([]);
       }
     };

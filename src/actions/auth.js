@@ -1,7 +1,7 @@
 
 
 
-export const createAccount = async (details, handleCurrentUser, handleError) => {
+export const createAccount = async (details, handleCurrentUser, handleTeacherCourses) => {
       const resp = await fetch('/signup', {
         method: 'POST',
         headers: {
@@ -12,11 +12,21 @@ export const createAccount = async (details, handleCurrentUser, handleError) => 
         withCredentials: true
       });
       if (resp.ok) {
-        const data = await resp.json();
+        const data = await resp.json()
+        console.log(data)
         handleCurrentUser(data)
+        const teacherId = parseInt(data.teacher.id)
+        console.log(teacherId)
+      
+        const coursesResp = await fetch(`/teachers/${teacherId}/courses`);
+        if (coursesResp.ok) {
+          const coursesData = await coursesResp.json();
+          handleTeacherCourses(coursesData);
+          console.log(coursesData)
+        }
       } else {
-        const errorData = await resp.json();
-        return { errors: errorData.errors}
+        const errorData = await resp.json()
+        return { errors: errorData.errors }
       }
     }
   
