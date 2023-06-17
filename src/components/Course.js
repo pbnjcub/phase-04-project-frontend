@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CourseEditForm from './CourseEditForm';
 import StudentLink from './StudentLink';
@@ -7,14 +7,15 @@ import UserContext from './UserContext';
 
 
 const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStudents }) => {
+  //state variables
   const { id } = useParams();
   const {currentUser, setCurrentUser} = React.useContext(UserContext);
   const [selectedCourse, setSelectedCourse] = useState(teacherCourses.find((course) => course.id === parseInt(id)));
   const [errorMessages, setErrorMessages] = useState([]);
   const [formFlag, setFormFlag] = useState(false);
-
   const [teacherId, setTeacherId] = useState(parseInt(currentUser.teacher.id));
 
+  //fetch post request to enroll student
   const handleEnrollment = (studentId, grade) => {
     fetch(`http://localhost:3000/teachers/${teacherId}/courses/${selectedCourse.id}/enroll/${studentId}`, {
       method: 'POST',
@@ -30,28 +31,29 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
     })
       .then((resp) => resp.json())
       .then((data) => {
+        // Add the enrollment data to students_courses
+        // Variable enrolledStudent is the student object that was enrolled
         const enrolledStudent = students.find((student) => student.id === parseInt(data.student_id));
-
+        //crate a shallow copy of enrolledStudent
         const updatedStudent = { ...enrolledStudent };
+        //push the selected course into the updatedStudent's courses array
         updatedStudent.courses.push(selectedCourse);
+        //push the enrollment data into the updatedStudent's courses_students array
         updatedStudent.courses_students.push(data); 
-        const updatedStudents = students.map((student) => {
-          if (student.id === updatedStudent.id) {
-            return updatedStudent;
-          } else {
-            return student;
-          }
-        });
-
+        //create a shallow copy of selectedCourse
         const updatedCourse = { ...selectedCourse };
+        //push the enrolledStudent into the updatedCourse's students array
         updatedCourse.students.push(enrolledStudent);
-        updatedCourse.courses_students.push(data); // Add the enrollment data to courses_students
+        //push the enrollment data into the updatedCourse's courses_students array
+        updatedCourse.courses_students.push(data);
+        //update the selectedCourse state variable
         updateCourse(updatedCourse);
+        //update the selectedStudent state variable
         updateStudent(updatedStudent)
       });
   };
   
-
+  //fetch delete request to unenroll student
   const unenrollStudent = (student) => {
     fetch(`http://localhost:3000/teachers/${teacherId}/courses/${selectedCourse.id}/unenroll/${student.id}`, {
       method: 'DELETE',
@@ -61,14 +63,18 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
       },
     })
     .then(() => {
+      // Remove the enrollment data from students_courses
+      //create a shallow copy of selectedCourse
       const updatedCourse = { ...selectedCourse };
+      //filter out the enrollment data from the updatedCourse's courses_students array
       updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
+      //update the courses state variable
       updateCourse(updatedCourse);
+      //update the selectedCourse state variable
       setSelectedCourse(updatedCourse)
     });
 
   };
-  
   const enrolledStudents = selectedCourse.students.map((student) => {
     const enrolled = selectedCourse.courses_students.find(
       (enrolled) => enrolled.student_id === student.id
@@ -76,13 +82,7 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
     const grade = enrolled.grade;
   
     return (
-      <StudentLink
-        key={student.id}
-        student={student}
-        unenrollStudent={unenrollStudent}
-        courseId={selectedCourse.id}
-        grade={grade}
-      />
+      <StudentLink key={student.id} student={student} unenrollStudent={unenrollStudent} courseId={selectedCourse.id} grade={grade}/>
     );
   });
   

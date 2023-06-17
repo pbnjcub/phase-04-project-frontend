@@ -4,7 +4,7 @@ import StudentEditForm from './StudentEditForm';
 import StudentEnrollmentInfo from './StudentEnrollmentInfo';
 import UserContext from './UserContext';
 
-const Student = ({ students, updateStudent, teacherCourses, setTeacherCourses, setCourses, updateCourse, courses} ) => {
+const Student = ({ updateStudent, teacherCourses, setTeacherCourses} ) => {
     const { id } = useParams();
     const {currentUser, setCurrentUser} = React.useContext(UserContext);
     const [selectedStudent, setSelectedStudent] = useState([]);
@@ -61,11 +61,6 @@ const Student = ({ students, updateStudent, teacherCourses, setTeacherCourses, s
         });
     };
   
-      // const getGrade = (courseId) => {
-      //   const enrolled = studentCourses.find((course) => course.id === courseId);
-      //   return enrolled.grade
-      // };
-  
       const getGrade = (courseId) => {
         const enrolled = selectedStudent.courses_students.find(
           (enrolled) => enrolled.course_id === courseId
@@ -99,7 +94,7 @@ const Student = ({ students, updateStudent, teacherCourses, setTeacherCourses, s
         </table>
         <br />
         {formFlag ?
-          <StudentEditForm selectedStudent={selectedStudent} handleEditStudent={handleEditStudent} courses={courses}/> :
+          <StudentEditForm selectedStudent={selectedStudent} handleEditStudent={handleEditStudent}/> :
           <button onClick={() => setFormFlag(true)}>Edit Student</button>}
         <br />
         {renderErrors}
