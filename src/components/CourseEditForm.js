@@ -17,6 +17,7 @@ const CourseEditForm = ({selectedCourse, handleEditCourse}) => {
     const handleEditSubmit = (e) => {
         e.preventDefault();
         handleEditCourse(updatedCourse);
+        
     }
 
 

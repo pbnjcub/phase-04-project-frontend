@@ -26,6 +26,7 @@ function App() {
     if (user.username) {
       setCurrentUser(user);
       setLoggedIn(true);
+  
     }
   };
 
@@ -33,6 +34,8 @@ function App() {
     setCurrentUser(null);
     setLoggedIn(false);
   };
+
+  
 
   useEffect(() => {
     getCurrentUser(handleCurrentUser);
@@ -53,6 +56,7 @@ function App() {
         setCourses(data);
       });
   }, []);
+  
 
   const removeStudent = (deletedStudent) => {
     const updatedStudents = students.filter((student) => student.id !== deletedStudent.id);
@@ -71,12 +75,6 @@ function App() {
     setStudents(updatedStudents);
   };
 
-  const updateStudentCourses = (updatedStudent) => {
-    const updatedStudents = students.map((student) =>
-      student.id === updatedStudent.id ? updatedStudent : student
-    );
-    setStudents(updatedStudents);
-  };
 
 
   const addCourse = (newCourse) => {
@@ -112,7 +110,7 @@ function App() {
             <Route exact path="/login" element={<Login setCurrentUser={setCurrentUser} setLoggedIn={setLoggedIn} handleCurrentUser={handleCurrentUser} handleTeacherCourses={handleTeacherCourses} />}/>
             <Route exact path="/logout" element={<Logout logoutCurrentUser={logoutCurrentUser} />} />
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} currentUser={currentUser} />}/>
-            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} setCourses={setCourses} studentCourses={studentCourses} />}/>
+            <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} students={students} setCourses={setCourses} courses={courses} teacherCourses={teacherCourses} setTeacherCourses={setTeacherCourses} studentCourses={studentCourses} />}/>
             {loggedIn && (
               <Route exact path="/teachers/:teacher_id/courses" element={<Courses courses={courses} addCourse={addCourse} removeCourse={removeCourse} teacherCourses={teacherCourses} />}/>
             )}

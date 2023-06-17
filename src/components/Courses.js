@@ -10,6 +10,7 @@ const Courses = ({teacherCourses, addCourse, removeCourse}) => {
     teacher_id: currentUser.teacher.id,
   });
 
+
   const [errorMessages, setErrorMessages] = useState([]);
   const [teacherId, setTeacherId] = useState(parseInt(currentUser.teacher.id));
 

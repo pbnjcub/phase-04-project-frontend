@@ -13,16 +13,13 @@ export const createAccount = async (details, handleCurrentUser, handleTeacherCou
       });
       if (resp.ok) {
         const data = await resp.json()
-        console.log(data)
         handleCurrentUser(data)
         const teacherId = parseInt(data.teacher.id)
-        console.log(teacherId)
       
         const coursesResp = await fetch(`/teachers/${teacherId}/courses`);
         if (coursesResp.ok) {
           const coursesData = await coursesResp.json();
           handleTeacherCourses(coursesData);
-          console.log(coursesData)
         }
       } else {
         const errorData = await resp.json()
@@ -57,24 +54,6 @@ export const createAccount = async (details, handleCurrentUser, handleTeacherCou
     }
   }
 
-// export const login = async (details, handleCurrentUser) => {
-//     const resp = await fetch('/login', {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//             "Accept": "application/json"
-//         },
-//         body: JSON.stringify(details),
-//         withCredentials: true
-//     })
-//     if (resp.ok) {
-//       const data = await resp.json()
-//       handleCurrentUser(data)
-//     } else {
-//       const errorData = await resp.json()
-//       return { errors: errorData.errors }
-//     }
-//   }
 
 export const logout = async (logoutCurrentUser) => {
   // e.preventDefault();

@@ -2,62 +2,69 @@ import React, {useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import StudentEditForm from './StudentEditForm';
 import StudentEnrollmentInfo from './StudentEnrollmentInfo';
+import UserContext from './UserContext';
 
-const Student = ( { students, updateStudent, updateCourse, studentCourses, updateStudentCourses} ) => {
+const Student = ({ students, updateStudent, teacherCourses, setTeacherCourses, setCourses, updateCourse, courses} ) => {
     const { id } = useParams();
-  
-    const selectedStudent = students.find((student) => student.id === parseInt(id));
+    const {currentUser, setCurrentUser} = React.useContext(UserContext);
+    const [selectedStudent, setSelectedStudent] = useState([]);
     const [errorMessages, setErrorMessages] = useState([]);
     const [formFlag, setFormFlag] = useState(false);
+    const [teacherId, setTeacherId] = useState(parseInt(currentUser.teacher.id));
+    const [studentCourses, setStudentCourses] = useState([])
 
-    const [courses, setCourses] = useState(selectedStudent.courses)
-    console.log(courses)
-                   
+   
+    useEffect(() => {
+      fetch(`http://localhost:3000/students/${id}`)
+        .then((resp) => resp.json())
+        .then((data) => {
+          setSelectedStudent(data)
+
+          const coursesByTeacher = data.courses.filter((course) => course.teacher_id === teacherId);
+          setStudentCourses(coursesByTeacher);
+        });
+    }, [id]);
+        
     const handleEditStudent = (editedStudent) => {
       fetch(`http://localhost:3000/students/${editedStudent.id}`, {
-          method: "PATCH",
-          headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-          },
-          body: JSON.stringify(editedStudent),
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(editedStudent),
       })
-          .then((resp) => resp.json())
-          .then(data => {
-              if (data.errors) {
-                  setErrorMessages(data.errors);
-              } else {
-                  updateStudent(data)
+        .then((resp) => resp.json())
+        .then((data) => {
+          if (data.errors) {
+            setErrorMessages(data.errors);
+          } else {
+            updateStudent(data);
+            setSelectedStudent(data);
+    
+            // Update student name in teacherCourses students object
+            const updatedCourses = teacherCourses.map((course) => {
+              const updatedStudents = course.students.map((student) => {
+                if (student.id === editedStudent.id) {
+                  return data;
+                } else {
+                  return student;
+                }
+              });
+              return { ...course, students: updatedStudents };
+            }
+            );
+            setTeacherCourses(updatedCourses);
+
+
+          }
+        });
+    };
   
-                  const updatedCourses = courses.map((course) => {
-                    const updatedStudents = course.students.map((student) => {
-                      if (student.id === editedStudent.id) {
-                        return {
-                          ...student,
-                          last_name: editedStudent.last_name,
-                          first_name: editedStudent.first_name,
-                        };
-                      } else {
-                        return student;
-                      }
-                    });
-                    console.log(updatedStudents)
-                    return {
-                      ...course,
-                      students: updatedStudents,
-                    };
-                  });
-                  console.log(updatedCourses)
-                  
-  
-                    setCourses(updatedCourses);
-                    setFormFlag(false)
-                    setErrorMessages([])
-                  }
-  
-              })
-          
-      };
+      // const getGrade = (courseId) => {
+      //   const enrolled = studentCourses.find((course) => course.id === courseId);
+      //   return enrolled.grade
+      // };
   
       const getGrade = (courseId) => {
         const enrolled = selectedStudent.courses_students.find(
@@ -66,7 +73,7 @@ const Student = ( { students, updateStudent, updateCourse, studentCourses, updat
         return enrolled.grade;
       };
   
-      const studentDetail = selectedStudent.courses.map((course) => {
+      const studentDetail = studentCourses.map((course) => {
         const grade = getGrade(course.id);
         return (<StudentEnrollmentInfo key={course.id} enrolledCourse={course.name} grade={grade}/>
         );
@@ -104,3 +111,64 @@ const Student = ( { students, updateStudent, updateCourse, studentCourses, updat
 
 
 
+// const handleEditStudent = (editedStudent) => {
+    //   fetch(`http://localhost:3000/students/${editedStudent.id}`, {
+    //       method: "PATCH",
+    //       headers: {
+    //           "Content-Type": "application/json",
+    //           "Accept": "application/json"
+    //       },
+    //       body: JSON.stringify(editedStudent),
+    //   })
+    //       .then((resp) => resp.json())
+    //       .then(data => {
+    //         console.log(data)
+    //           if (data.errors) {
+    //               setErrorMessages(data.errors);
+    //           } else {
+    //               updateStudent(data)
+  
+    //               const updatedCourses = courses.map((course) => {
+    //                 const updatedStudents = course.students.map((student) => {
+    //                   if (student.id === editedStudent.id) {
+    //                     return {
+    //                       ...student,
+    //                       last_name: editedStudent.last_name,
+    //                       first_name: editedStudent.first_name,
+    //                     };
+    //                   } else {
+    //                     return student;
+    //                   }
+    //                 });
+          
+    //                 return {
+    //                   ...course,
+    //                   students: updatedStudents,
+    //                 };
+    //               });
+          
+    //               setCourses(updatedCourses);
+    //               setFormFlag(false);
+    //               setErrorMessages([]);
+          
+    //               // Update the student's name in the associated courses on the backend
+    //               Promise.all(
+    //                 updatedCourses.map((course) =>
+    //                   fetch(`http://localhost:3000/courses/${course.id}/students/${editedStudent.id}`, {
+    //                     method: "PATCH",
+    //                     headers: {
+    //                       "Content-Type": "application/json",
+    //                       "Accept": "application/json"
+    //                     },
+    //                     body: JSON.stringify({
+    //                       first_name: editedStudent.first_name,
+    //                       last_name: editedStudent.last_name
+    //                     }),
+    //                   })
+    //                 )
+    //               ).then(() => {
+    //                 console.log("Student name updated in associated courses");
+    //               });
+    //             }
+    //           });
+    //       };

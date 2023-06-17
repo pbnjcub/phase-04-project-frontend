@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import CourseEditForm from './CourseEditForm';
 import StudentLink from './StudentLink';
@@ -14,10 +14,8 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
   const [formFlag, setFormFlag] = useState(false);
 
   const [teacherId, setTeacherId] = useState(parseInt(currentUser.teacher.id));
-  console.log(currentUser.teacher)
 
   const handleEnrollment = (studentId, grade) => {
-    console.log(studentId, grade)
     fetch(`http://localhost:3000/teachers/${teacherId}/courses/${selectedCourse.id}/enroll/${studentId}`, {
       method: 'POST',
       headers: {
@@ -32,7 +30,6 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
     })
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data)
         const enrolledStudent = students.find((student) => student.id === parseInt(data.student_id));
 
         const updatedStudent = { ...enrolledStudent };
@@ -56,8 +53,6 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
   
 
   const unenrollStudent = (student) => {
-    console.log(student)
-    console.log(teacherId)
     fetch(`http://localhost:3000/teachers/${teacherId}/courses/${selectedCourse.id}/unenroll/${student.id}`, {
       method: 'DELETE',
       headers: {
@@ -69,17 +64,11 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
       const updatedCourse = { ...selectedCourse };
       updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
       updateCourse(updatedCourse);
-
-      // const updatedStudent = { ...student };
-      // updatedStudent.courses = updatedStudent.courses.filter((course) => course.id !== selectedCourse.id);
-      // updateStudent(updatedStudent);
-
       setSelectedCourse(updatedCourse)
     });
 
   };
   
-
   const enrolledStudents = selectedCourse.students.map((student) => {
     const enrolled = selectedCourse.courses_students.find(
       (enrolled) => enrolled.student_id === student.id
@@ -97,15 +86,11 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
     );
   });
   
-
-
-
   const unenrolledStudents = students.filter((student) => {
     return !selectedCourse.students.some((enrolledStudent) => enrolledStudent.id === student.id);
   });
 
   const handleEditCourse = (editedCourse) => {
-    console.log(editedCourse)
     fetch(`http://localhost:3000/teachers/${teacherId}/courses/${editedCourse.id}`, {
       method: "PATCH",
       headers: {
