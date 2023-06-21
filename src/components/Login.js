@@ -3,6 +3,7 @@ import { login } from '../actions/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({handleCurrentUser, handleTeacherCourses}) => {
+    //state variables
     const [userTeacher, setUserTeacher] = useState({
         username: "",
         password: "",
@@ -10,6 +11,7 @@ const Login = ({handleCurrentUser, handleTeacherCourses}) => {
     const navigate = useNavigate();
     const [errorMessages, setErrorMessages] = useState([]);
 
+    //sets userTeacher state from form data
     const handleChange = (e) => {
         setUserTeacher({
             ...userTeacher,
@@ -17,7 +19,7 @@ const Login = ({handleCurrentUser, handleTeacherCourses}) => {
         })
     }
         
-
+    //submit action => uses login action from auth.js and hadles return
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = login(userTeacher, handleCurrentUser, handleTeacherCourses);
@@ -29,11 +31,12 @@ const Login = ({handleCurrentUser, handleTeacherCourses}) => {
       }
     };
 
+    //renders the errors if authorization fails
     const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
 
     
     return (
-        <div>
+        <div className="main">
             <h1>Login</h1>
             <br />
             {renderErrors}

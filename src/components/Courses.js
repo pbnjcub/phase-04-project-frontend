@@ -49,7 +49,7 @@ const Courses = ({teacherCourses, addCourse, removeCourse}) => {
     };
 
     //map over teacherCourses to create CourseLink components
-    const courseList = teacherCourses.map((course) => <CourseLink key={course.id} course={course} teacherid={teacherId} deleteCourse={deleteCourse} />);
+    const courseList = teacherCourses.map((course) => <CourseLink key={course.id} course={course} teacherId={teacherId} deleteCourse={deleteCourse} />);
     //map over errorMessages to create error messages
     const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
 

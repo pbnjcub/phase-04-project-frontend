@@ -41,8 +41,8 @@ export const createAccount = async (details, handleCurrentUser, handleTeacherCou
     if (resp.ok) {
       const data = await resp.json()
       handleCurrentUser(data)
-      const teacherId = data.teacher.id
-    
+      const teacherId = parseInt(data.teacher.id)
+      console.log(data)
       const coursesResp = await fetch(`/teachers/${teacherId}/courses`);
       if (coursesResp.ok) {
         const coursesData = await coursesResp.json();
@@ -73,7 +73,7 @@ export const getCurrentUser = async (handleCurrentUser) => {
       const response = await fetch('/current-user', {
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
+          'Accept': 'application/json',
         },
         withCredentials: true,
       });

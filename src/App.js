@@ -111,7 +111,7 @@ function App() {
             <Route exact path="/students" element={<Students students={students} addStudent={addStudent} removeStudent={removeStudent} currentUser={currentUser} />}/>
             <Route exact path="/students/:id" element={<Student updateStudent={updateStudent} updateCourse={updateCourse} setCourses={setCourses} teacherCourses={teacherCourses} setTeacherCourses={setTeacherCourses} studentCourses={studentCourses} />}/>
             {loggedIn && (
-              <Route exact path="/teachers/:teacher_id/courses" element={<Courses addCourse={addCourse} removeCourse={removeCourse} teacherCourses={teacherCourses} />}/>
+              <Route exact path="/teachers/:teacher_id/courses" element={<Courses addCourse={addCourse} removeCourse={removeCourse} teacherCourses={teacherCourses}/>}/>
             )}
             <Route exact path="/teachers/:teacher_id/courses/:id" element={<Course updateCourse={updateCourse} teacherCourses={teacherCourses} students={students} setStudents={setStudents} updateStudent={updateStudent} removeStudent={removeStudent} addStudent={addStudent}/>}/>
             </Routes>

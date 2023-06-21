@@ -3,6 +3,7 @@ import { createAccount } from '../actions/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = ({handleCurrentUser, handleTeacherCourses}) => {
+    //state variables
     const [newUserTeacher, setNewUserTeacher] = useState({
         username: "",
         password: "",
@@ -15,6 +16,7 @@ const Signup = ({handleCurrentUser, handleTeacherCourses}) => {
     const navigate = useNavigate();
     const [errorMessages, setErrorMessages] = useState([]);
 
+      //updates state of
       const handleChange = (e) => {
         if (e.target.name.includes("teacher")) {
           setNewUserTeacher({
@@ -32,11 +34,10 @@ const Signup = ({handleCurrentUser, handleTeacherCourses}) => {
         }
       };
 
-
+      // submit action => createAccount from auth.js
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = createAccount(newUserTeacher, handleCurrentUser, handleTeacherCourses);
-        console.log(response)
         if (response.errors) {
             setErrorMessages(response.errors);
         } else {
@@ -44,7 +45,7 @@ const Signup = ({handleCurrentUser, handleTeacherCourses}) => {
           setErrorMessages([]);
       }
     };
-
+    //renders errors
     const renderErrors = errorMessages.map((message) => <p id="error">{message}</p>);
 
     return (

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
-
+    //state variables
     const [updatedStudent, setUpdatedStudent] = useState({
         id: selectedStudent.id,
         first_name: selectedStudent.first_name,
@@ -12,11 +12,12 @@ const StudentEditForm = ({selectedStudent, handleEditStudent}) => {
     const navigate = useNavigate();
 
 
-
+    //updating state for updatedStudent from form data
     const handleChange = (e) => {
         setUpdatedStudent({ ...updatedStudent, [e.target.name]: e.target.value });
     };
 
+    //submit action => handleEditStudent
     const handleEditSubmit = (e) => {
         e.preventDefault();
         handleEditStudent(updatedStudent);

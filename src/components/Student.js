@@ -5,6 +5,7 @@ import StudentEnrollmentInfo from './StudentEnrollmentInfo';
 import UserContext from './UserContext';
 
 const Student = ({ updateStudent, teacherCourses, setTeacherCourses} ) => {
+    //state variables
     const { id } = useParams();
     const {currentUser, setCurrentUser} = React.useContext(UserContext);
     const [selectedStudent, setSelectedStudent] = useState([]);
@@ -13,7 +14,7 @@ const Student = ({ updateStudent, teacherCourses, setTeacherCourses} ) => {
     const [teacherId, setTeacherId] = useState(parseInt(currentUser.teacher.id));
     const [studentCourses, setStudentCourses] = useState([])
 
-   
+   //fetch for student data
     useEffect(() => {
       fetch(`http://localhost:3000/students/${id}`)
         .then((resp) => resp.json())
@@ -24,7 +25,8 @@ const Student = ({ updateStudent, teacherCourses, setTeacherCourses} ) => {
           setStudentCourses(coursesByTeacher);
         });
     }, [id]);
-        
+    
+    //fetch to update student's name
     const handleEditStudent = (editedStudent) => {
       fetch(`http://localhost:3000/students/${editedStudent.id}`, {
         method: "PATCH",
@@ -60,14 +62,14 @@ const Student = ({ updateStudent, teacherCourses, setTeacherCourses} ) => {
           }
         });
     };
-  
+      //gets student's grade in each enrolled class.
       const getGrade = (courseId) => {
         const enrolled = selectedStudent.courses_students.find(
           (enrolled) => enrolled.course_id === courseId
         );
         return enrolled.grade;
       };
-  
+      //formats student info
       const studentDetail = studentCourses.map((course) => {
         const grade = getGrade(course.id);
         return (<StudentEnrollmentInfo key={course.id} enrolledCourse={course.name} grade={grade}/>

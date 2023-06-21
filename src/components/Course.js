@@ -15,6 +15,7 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
   const [formFlag, setFormFlag] = useState(false);
   const [teacherId, setTeacherId] = useState(parseInt(currentUser.teacher.id));
 
+  console.log(students)
   //fetch post request to enroll student
   const handleEnrollment = (studentId, grade) => {
     fetch(`http://localhost:3000/teachers/${teacherId}/courses/${selectedCourse.id}/enroll/${studentId}`, {
@@ -32,23 +33,14 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
       .then((resp) => resp.json())
       .then((data) => {
         // Add the enrollment data to students_courses
-        // Variable enrolledStudent is the student object that was enrolled
         const enrolledStudent = students.find((student) => student.id === parseInt(data.student_id));
-        //crate a shallow copy of enrolledStudent
         const updatedStudent = { ...enrolledStudent };
-        //push the selected course into the updatedStudent's courses array
         updatedStudent.courses.push(selectedCourse);
-        //push the enrollment data into the updatedStudent's courses_students array
         updatedStudent.courses_students.push(data); 
-        //create a shallow copy of selectedCourse
         const updatedCourse = { ...selectedCourse };
-        //push the enrolledStudent into the updatedCourse's students array
         updatedCourse.students.push(enrolledStudent);
-        //push the enrollment data into the updatedCourse's courses_students array
         updatedCourse.courses_students.push(data);
-        //update the selectedCourse state variable
         updateCourse(updatedCourse);
-        //update the selectedStudent state variable
         updateStudent(updatedStudent)
       });
   };
@@ -64,13 +56,9 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
     })
     .then(() => {
       // Remove the enrollment data from students_courses
-      //create a shallow copy of selectedCourse
       const updatedCourse = { ...selectedCourse };
-      //filter out the enrollment data from the updatedCourse's courses_students array
       updatedCourse.students = updatedCourse.students.filter((enrolledStudent) => enrolledStudent.id !== student.id);
-      //update the courses state variable
       updateCourse(updatedCourse);
-      //update the selectedCourse state variable
       setSelectedCourse(updatedCourse)
     });
 
