@@ -16,7 +16,10 @@ const Student = ({ updateStudent, teacherCourses, setTeacherCourses} ) => {
 
    //fetch for student data
     useEffect(() => {
-      fetch(`http://localhost:3000/students/${id}`)
+      fetch(`http://localhost:3000/students/${id}`, {
+        mode: 'cors',
+        credentials: 'include',
+      })
         .then((resp) => resp.json())
         .then((data) => {
           setSelectedStudent(data)
@@ -30,6 +33,8 @@ const Student = ({ updateStudent, teacherCourses, setTeacherCourses} ) => {
     const handleEditStudent = (editedStudent) => {
       fetch(`http://localhost:3000/students/${editedStudent.id}`, {
         method: "PATCH",
+        mode: 'cors',
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",

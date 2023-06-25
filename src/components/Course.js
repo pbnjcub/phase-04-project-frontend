@@ -9,6 +9,7 @@ import UserContext from './UserContext';
 const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStudents }) => {
   //state variables
   const { id } = useParams();
+  console.log(teacherCourses)
   const {currentUser, setCurrentUser} = React.useContext(UserContext);
   const [selectedCourse, setSelectedCourse] = useState(teacherCourses.find((course) => course.id === parseInt(id)));
   const [errorMessages, setErrorMessages] = useState([]);
@@ -18,11 +19,13 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
   console.log(students)
   //fetch post request to enroll student
   const handleEnrollment = (studentId, grade) => {
-    fetch(`http://localhost:3000/teachers/${teacherId}/courses/${selectedCourse.id}/enroll/${studentId}`, {
+    fetch(`http://localhost:3000/courses/${selectedCourse.id}/enroll/${studentId}`, {
       method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        'Accept': 'application/json',
       },
       body: JSON.stringify({
         student_id: studentId,
@@ -47,11 +50,14 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
   
   //fetch delete request to unenroll student
   const unenrollStudent = (student) => {
-    fetch(`http://localhost:3000/teachers/${teacherId}/courses/${selectedCourse.id}/unenroll/${student.id}`, {
+    console.log(student)
+    fetch(`http://localhost:3000/courses/${selectedCourse.id}/unenroll/${student.id}`, {
       method: 'DELETE',
+      mode: 'cors',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
+        'Accept': 'application/json',
       },
     })
     .then(() => {
@@ -81,6 +87,8 @@ const Course = ({ teacherCourses, updateCourse, updateStudent, students, setStud
   const handleEditCourse = (editedCourse) => {
     fetch(`http://localhost:3000/teachers/${teacherId}/courses/${editedCourse.id}`, {
       method: "PATCH",
+      mode: 'cors',
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"

@@ -21,13 +21,15 @@ function App() {
   const [courses, setCourses] = useState([]);
   const [teacherCourses, setTeacherCourses] = useState([]);
   const [studentCourses, setStudentCourses] = useState([])
+  
 
 //function to handle current user data
   const handleCurrentUser = (user) => {
     if (user.username) {
+      console.log(user)
       setCurrentUser(user);
       setLoggedIn(true);
-  
+      
     }
   };
 

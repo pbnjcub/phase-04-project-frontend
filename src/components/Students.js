@@ -12,6 +12,8 @@ const Students = ({students, addStudent, removeStudent}) => {
  const deleteStudent = (deletedStudent) => {
       fetch(`http://localhost:3000/students/${deletedStudent.id}`, {
         method: "DELETE",
+        mode: 'cors',
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
@@ -27,6 +29,8 @@ const studentList = students.map((student) => (
   const handleNewStudent = (newStudent) => {
     fetch("http://localhost:3000/students", {
         method: "POST",
+        mode: 'cors',
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"

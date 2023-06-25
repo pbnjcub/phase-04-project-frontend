@@ -4,6 +4,8 @@
 export const createAccount = async (details, handleCurrentUser, handleTeacherCourses) => {
       const resp = await fetch('/signup', {
         method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -30,12 +32,13 @@ export const createAccount = async (details, handleCurrentUser, handleTeacherCou
   export const login = async (details, handleCurrentUser, handleTeacherCourses) => {
     const resp = await fetch('/login', {
         method: "POST",
+        mode: "cors",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
         body: JSON.stringify(details),
-        withCredentials: true
     })
 
     if (resp.ok) {

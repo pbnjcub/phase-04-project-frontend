@@ -12,7 +12,11 @@ const Courses = ({teacherCourses, addCourse, removeCourse}) => {
   });
   const [errorMessages, setErrorMessages] = useState([]);
   const [teacherId, setTeacherId] = useState(parseInt(currentUser.teacher.id));
+  console.log(teacherCourses)
 
+  console.log(currentUser.teacher.id)
+
+  
   //fetch delete course
   const deleteCourse = (deletedCourse) => {
       const courseId = deletedCourse.id;
@@ -30,9 +34,11 @@ const Courses = ({teacherCourses, addCourse, removeCourse}) => {
   const handleNewCourse = (newCourse, teacherId) => {
     fetch(`http://localhost:3000/teachers/${teacherId}/courses`, {
         method: "POST",
+        mode: 'cors',
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
+            "Accept": "application/json",
         },
         body: JSON.stringify(newCourse),
     })
